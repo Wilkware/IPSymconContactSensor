@@ -1,0 +1,14 @@
+{
+  "id": "{2C879813-01C3-40B8-44C4-69A8A6DBA8B8}",
+  "name": "Contact Sensor",
+  "type": 3,
+  "vendor": "",
+  "aliases": [
+    "Window Contact",
+    "Door Contact"
+  ],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "TCS"
+}

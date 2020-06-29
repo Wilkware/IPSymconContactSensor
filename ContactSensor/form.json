@@ -1,0 +1,42 @@
+{
+  "elements": [
+    {"type": "ExpansionPanel", "caption": "Lowering the heating",
+      "items": [
+        {"type": "NumberSpinner", "name": "Delay", "caption": "Reaction time:", "suffix": "seconds"},
+        {"type": "CheckBox", "name": "OpenValve", "caption": "Lowering when heating is in progress (valve position > 0%)?"},
+        {"type": "CheckBox", "name": "TempDiff", "caption": "Set-back when difference between outdoor and indoor temperature exceeds set value?"},
+        {"type": "NumberSpinner", "name": "Difference", "caption": "Temperature difference:", "suffix": "°C"}
+      ]
+    },
+    {"type": "ExpansionPanel", "caption": "Heating system",
+      "items": [
+        {"type": "SelectVariable", "name": "Radiator1", "caption": "Heater 1:"},
+        {"type": "SelectVariable", "name": "Radiator1", "caption": "Heater 2:"}
+      ]
+    },
+    {"type": "ExpansionPanel", "caption": "Climate",
+      "items": [
+        {"type": "SelectVariable", "name": "TempIndoor", "caption": "Indoor temperature:"},
+        {"type": "SelectVariable", "name": "TempOutdoor", "caption": "Outdoor temperature:"}
+      ]
+    },
+    {"type": "ExpansionPanel", "caption": "Dashboard",
+      "items": [
+        {"type": "Label", "caption": "Settings to use the dashboard message script. More information you get in the forum to thema: Meldungsanzeige im WebFront." },
+        {"type": "SelectScript", "name": "ScriptMessage", "caption": "Message script:" },
+        {"type": "Label", "caption": "For better assign the message, we need a room name!" },
+        {"type": "ValidationTextBox", "name": "RoomName", "caption": "Room name:" },
+        {"type": "Select", "name": "LifeTime", "caption": "Message Life Time:",
+          "options": [
+            {"label": "Always", "value": 0 },
+            {"label": "5 min", "value": 5 },
+            {"label": "15 min", "value": 15 },
+            {"label": "30 min", "value": 30 },
+            {"label": "60 min", "value": 60 },
+            {"label": "2 h", "value": 120 }
+          ]
+        }
+      ]
+    }
+  ]
+}
