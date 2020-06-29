@@ -27,7 +27,7 @@ class ContactSensor extends IPSModule
         $this->RegisterPropertyInteger('TempOutdoor', 0);
         // Dashboard variables
         $this->RegisterPropertyInteger('ScriptMessage', 0);
-        $this->RegisterPropertyString('RoomName', 'Unknown');
+        $this->RegisterPropertyString('RoomName', $this->Translate('Unknown'));
         $this->RegisterPropertyInteger('LifeTime', 0);
         // Update trigger
         $this->RegisterTimer('DelayTrigger', 0, "TCS_Decrease(\$_IPS['TARGET']);");

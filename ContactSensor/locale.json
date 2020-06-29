@@ -2,14 +2,15 @@
   "translations": {
     "de": {
         "Lowering the heating": "Absenkung der Heizung",
-        "Reaction time:": "Reaktionszeit (Verzöferung):",
-        "Lowering when heating is in progress (valve position > 0%)?": "Absenkung bei laufender Heizung (Ventilstellung > 0%)",
+        "Reaction time:": "Reaktionszeit (Verzögerung):",
+        "Lowering when heating is in progress (valve position > 0%)?": "Absenkung nur bei laufender Heizung (Ventilstellung > 0%)",
         "Set-back when difference between outdoor and indoor temperature exceeds set value?": "Absenkung, wenn die Differenz zwischen Außen- und Innentemperatur den eingestellten Wert überschreitet?",
         "Temperature difference:": "Temperaturdifferenz:",
         "seconds": "Sekunden",
         "Heating system": "Heizungssytem",
         "Heater 1:": "1.Heizkörper:",
         "Heater 2:": "2.Heizkörper:",
+        "Climate": "Klimawerte",
         "Indoor temperature:": "Innentemperatur:",
         "Outdoor temperature:": "Außentemperatur:",
         "Dashboard": "Meldungsverwaltung",

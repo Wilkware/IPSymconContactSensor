@@ -11,7 +11,7 @@
     {"type": "ExpansionPanel", "caption": "Heating system",
       "items": [
         {"type": "SelectVariable", "name": "Radiator1", "caption": "Heater 1:"},
-        {"type": "SelectVariable", "name": "Radiator1", "caption": "Heater 2:"}
+        {"type": "SelectVariable", "name": "Radiator2", "caption": "Heater 2:"}
       ]
     },
     {"type": "ExpansionPanel", "caption": "Climate",
