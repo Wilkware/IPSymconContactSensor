@@ -19,6 +19,7 @@ class ContactSensor extends IPSModule
         // Decrease variables
         $this->RegisterPropertyInteger('Delay', 30);
         $this->RegisterPropertyBoolean('OpenValve', false);
+        $this->RegisterPropertyInteger('Level', 0);
         $this->RegisterPropertyBoolean('TempDiff', false);
         $this->RegisterPropertyInteger('Difference', 10);
         // Radiator variables
@@ -67,7 +68,7 @@ class ContactSensor extends IPSModule
                 }
                 // Zustandsaenderung ?
                 if ($data[0] == 1 && $data[1] == true) { // OnChange auf 1, d.h. OPEN
-                    $this->SendDebug('MessageSink', 'OnChange auf <OPEN> - geschalten');
+                    $this->SendDebug('MessageSink', 'OnChange auf <OPEN> geschalten');
                     $delay = $this->ReadPropertyInteger('Delay');
                     if ($delay > 0) {
                         $this->SetTimerInterval('DelayTrigger', 1000 * $delay);
@@ -75,8 +76,8 @@ class ContactSensor extends IPSModule
                         $this->Decrease();
                     }
                 } elseif ($data[0] == 0 && $data[1] == true) { // OnChange auf 0, d.h. CLOSE
-                    $this->SendDebug('MessageSink', 'OnChange auf <CLOSE> - geschalten');
-                    $this->SetTimerInterval('DelayTrigger', 0);
+                    $this->SendDebug('MessageSink', 'OnChange auf <CLOSE> geschalten');
+                    $this->Restore();
                 } else { // OnChange - keine Zustandsaenderung
                     $this->SendDebug('MessageSink', 'OnChange unveraendert - keine Zustandsaenderung');
                 }
@@ -93,6 +94,78 @@ class ContactSensor extends IPSModule
     public function Decrease()
     {
         $this->SendDebug('Decrease', 'wurde aufgerufen!');
+        // Timer so oder so deaktivieren
+        $this->SetTimerInterval('DelayTrigger', 0);
+        // 1.Bedingung auslesen (Ventilposition)
+        if ($this->ReadPropertyBoolean('OpenValve')) {
+            $lid = $this->ReadPropertyInteger('Level');
+            if ($lid != 0) {
+                if (GetValue($lid) <= 0) {
+                    $this->SendDebug('Decrease', 'Ventilpostionscheck ist aktiv und traf zu!');
+                    return;
+                }
+            } else {
+                $this->SendDebug('Decrease', 'Ventilpostionscheck ist aktiv aber keine Positionsvariable hinterlegt!');
+            }
+        }
+        // 2.Bedingung auslesen (Temperaturunterschied)
+        if ($this->ReadPropertyBoolean('TempDiff')) {
+            // Temperaturwert
+            $diff = $this->ReadPropertyInteger('Difference');
+            // IDs
+            $iid = $this->ReadPropertyInteger('TempIndoor');
+            $oid = $this->ReadPropertyInteger('TempOutdoor');
+            if (($iid != 0) & ($oid != 0)) {
+                if ((GetValue($iid) - GetValue($oid)) < $diff) {
+                    $this->SendDebug('Decrease', 'Temperaturcheck ist aktiv und traf zu!');
+                    return;
+                }
+            } else {
+                $this->SendDebug('Decrease', 'Temperaturcheck ist aktiv aber keine Temperaturvariable hinterlegt!');
+            }
+        }
+        // Thermostat manuell auf "12 °C" stellen
+        $radiator = $this->ReadPropertyInteger('Radiator1', 0);
+        if ($radiator != 0) {
+            $ret = HM_WriteValueInteger($radiator, 'CONTROL_MODE', 1);
+            $ret = HM_WriteValueFloat($radiator, 'SET_POINT_TEMPERATURE', 12);
+            $this->SendDebug('Decrease', 'Set Radiator1 control mode to MANUAL => ' . boolval($ret));
+        }
+        $radiator = $this->ReadPropertyInteger('Radiator2', 0);
+        if ($radiator != 0) {
+            $ret = HM_WriteValueInteger($radiator, 'CONTROL_MODE', 1);
+            $ret = HM_WriteValueFloat($radiator, 'SET_POINT_TEMPERATURE', 12);
+            $this->SendDebug('Decrease', 'Set Radiator2 control mode to MANUAL => ' . boolval($ret));
+        }
+    }
+
+    /**
+     * This function will be available automatically after the module is imported with the module control.
+     * Using the custom prefix this function will be callable from PHP and JSON-RPC through:.
+     *
+     * TSC_Restore($id);
+     */
+    public function Restore()
+    {
+        $this->SendDebug('Restore', 'wurde aufgerufen!');
+        // Läuft vielleicht ein Timer?
+        if ($this->GetTimerInterval('DelayTrigger') > 0) {
+            // Timer deaktivieren
+            $this->SetTimerInterval('DelayTrigger', 0);
+            // und nix mehr machen
+            return;
+        }
+        // Thermostat wieder auf "AUTO" stellen
+        $radiator = $this->ReadPropertyInteger('Radiator1', 0);
+        if ($radiator != 0) {
+            $ret = HM_WriteValueInteger($radiator, 'CONTROL_MODE', 0);
+            $this->SendDebug('Restore', 'Set Radiator1 control mode to auto => ' . boolval($ret));
+        }
+        $radiator = $this->ReadPropertyInteger('Radiator2', 0);
+        if ($radiator != 0) {
+            $ret = HM_WriteValueInteger($radiator, 'CONTROL_MODE', 0);
+            $this->SendDebug('Restore', 'Set Radiator2 control mode to auto => ' . boolval($ret));
+        }
     }
 
     /**

@@ -6,6 +6,7 @@
         "Lowering the heating": "Absenkung der Heizung",
         "Reaction time:": "Reaktionszeit (Verzögerung):",
         "Lowering when heating is in progress (valve position > 0%)?": "Absenkung nur bei laufender Heizung (Ventilstellung > 0%)",
+        "Level Variable:": "Positionsvariable:",
         "Set-back when difference between outdoor and indoor temperature exceeds set value?": "Absenkung, wenn die Differenz zwischen Außen- und Innentemperatur den eingestellten Wert überschreitet?",
         "Temperature difference:": "Temperaturdifferenz:",
         "seconds": "Sekunden",

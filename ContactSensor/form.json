@@ -9,14 +9,15 @@
       "items": [
         {"type": "NumberSpinner", "name": "Delay", "caption": "Reaction time:", "suffix": "seconds"},
         {"type": "CheckBox", "name": "OpenValve", "caption": "Lowering when heating is in progress (valve position > 0%)?"},
+        {"type": "SelectVariable", "name": "Level", "caption": "Level Variable:" },
         {"type": "CheckBox", "name": "TempDiff", "caption": "Set-back when difference between outdoor and indoor temperature exceeds set value?"},
         {"type": "NumberSpinner", "name": "Difference", "caption": "Temperature difference:", "suffix": "°C"}
       ]
     },
     {"type": "ExpansionPanel", "caption": "Heating system",
       "items": [
-        {"type": "SelectVariable", "name": "Radiator1", "caption": "Heater 1:"},
-        {"type": "SelectVariable", "name": "Radiator2", "caption": "Heater 2:"}
+        {"type": "SelectInstance", "name": "Radiator1", "caption": "Heater 1:"},
+        {"type": "SelectInstance", "name": "Radiator2", "caption": "Heater 2:"}
       ]
     },
     {"type": "ExpansionPanel", "caption": "Climate",
