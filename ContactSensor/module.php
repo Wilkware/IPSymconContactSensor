@@ -14,6 +14,8 @@ class ContactSensor extends IPSModule
     {
         //Never delete this line!
         parent::Create();
+        // Contact state variables
+        $this->RegisterPropertyInteger('StateVariable', 0);
         // Decrease variables
         $this->RegisterPropertyInteger('Delay', 30);
         $this->RegisterPropertyBoolean('OpenValve', false);
@@ -35,8 +37,51 @@ class ContactSensor extends IPSModule
 
     public function ApplyChanges()
     {
+        if ($this->ReadPropertyInteger('StateVariable') != 0) {
+            $this->UnregisterMessage($this->ReadPropertyInteger('StateVariable'), VM_UPDATE);
+        }
         //Never delete this line!
         parent::ApplyChanges();
+        //Create our trigger
+        if (IPS_VariableExists($this->ReadPropertyInteger('StateVariable'))) {
+            $this->RegisterMessage($this->ReadPropertyInteger('StateVariable'), VM_UPDATE);
+        }
+    }
+
+    /**
+     * Internal SDK funktion.
+     * data[0] = new value
+     * data[1] = value changed?
+     * data[2] = old value
+     * data[3] = timestamp.
+     */
+    public function MessageSink($timeStamp, $senderID, $message, $data)
+    {
+        // $this->SendDebug('MessageSink', 'SenderId: '. $senderID . ' Data: ' . print_r($data, true), 0);
+        switch ($message) {
+            case VM_UPDATE:
+                // Safty Check
+                if ($senderID != $this->ReadPropertyInteger('StateVariable')) {
+                    $this->SendDebug('MessageSink', 'SenderID: ' . $senderID . ' unbekannt!');
+                    break;
+                }
+                // Zustandsaenderung ?
+                if ($data[0] == 1 && $data[1] == true) { // OnChange auf 1, d.h. OPEN
+                    $this->SendDebug('MessageSink', 'OnChange auf <OPEN> - geschalten');
+                    $delay = $this->ReadPropertyInteger('Delay');
+                    if ($delay > 0) {
+                        $this->SetTimerInterval('DelayTrigger', 1000 * $delay);
+                    } else {
+                        $this->Decrease();
+                    }
+                } elseif ($data[0] == 0 && $data[1] == true) { // OnChange auf 0, d.h. CLOSE
+                    $this->SendDebug('MessageSink', 'OnChange auf <CLOSE> - geschalten');
+                    $this->SetTimerInterval('DelayTrigger', 0);
+                } else { // OnChange - keine Zustandsaenderung
+                    $this->SendDebug('MessageSink', 'OnChange unveraendert - keine Zustandsaenderung');
+                }
+            break;
+          }
     }
 
     /**
@@ -47,6 +92,7 @@ class ContactSensor extends IPSModule
      */
     public function Decrease()
     {
+        $this->SendDebug('Decrease', 'wurde aufgerufen!');
     }
 
     /**

@@ -1,6 +1,8 @@
 {
   "translations": {
     "de": {
+        "Contact Sensor": "Kontakt-Sensor",
+        "State Variable:": "Statusvariable:",
         "Lowering the heating": "Absenkung der Heizung",
         "Reaction time:": "Reaktionszeit (Verzögerung):",
         "Lowering when heating is in progress (valve position > 0%)?": "Absenkung nur bei laufender Heizung (Ventilstellung > 0%)",

@@ -1,5 +1,10 @@
 {
   "elements": [
+    {"type": "ExpansionPanel", "caption": "Contact Sensor",
+      "items": [
+        {"type": "SelectVariable", "name": "StateVariable", "caption": "State Variable:" }
+      ]
+    },
     {"type": "ExpansionPanel", "caption": "Lowering the heating",
       "items": [
         {"type": "NumberSpinner", "name": "Delay", "caption": "Reaction time:", "suffix": "seconds"},
