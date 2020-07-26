@@ -125,17 +125,39 @@ class ContactSensor extends IPSModule
             }
         }
         // Thermostat manuell auf "12 °C" stellen
-        $radiator = $this->ReadPropertyInteger('Radiator1', 0);
+        $radiator = $this->ReadPropertyInteger('Radiator1');
         if ($radiator != 0) {
             $ret = HM_WriteValueInteger($radiator, 'CONTROL_MODE', 1);
             $ret = HM_WriteValueFloat($radiator, 'SET_POINT_TEMPERATURE', 12);
             $this->SendDebug('Decrease', 'Set Radiator1 control mode to MANUAL => ' . boolval($ret));
         }
-        $radiator = $this->ReadPropertyInteger('Radiator2', 0);
+        $radiator = $this->ReadPropertyInteger('Radiator2');
         if ($radiator != 0) {
             $ret = HM_WriteValueInteger($radiator, 'CONTROL_MODE', 1);
             $ret = HM_WriteValueFloat($radiator, 'SET_POINT_TEMPERATURE', 12);
             $this->SendDebug('Decrease', 'Set Radiator2 control mode to MANUAL => ' . boolval($ret));
+        }
+        // Meldung wenn moeglich
+        $scriptId = $this->ReadPropertyInteger('ScriptMessage');
+        if ($scriptId != 0) {
+            $room = $this->ReadPropertyString('RoomName');
+            $time = $this->ReadPropertyInteger('LifeTime');
+            $time = $time * 60;
+            if (IPS_ScriptExists($scriptId)) {
+                if ($time > 0) {
+                    IPS_RunScriptWaitEx(
+                        $scriptId,
+                        ['action'       => 'add', 'text' => $room . ': ' . $this->Translate('Temperature is lowered!'), 'expires' => time() + $time,
+                            'removable' => true, 'type' => 3, 'image' => 'Window-0', ]
+                    );
+                } else {
+                    IPS_RunScriptWaitEx(
+                        $scriptId,
+                        ['action'       => 'add', 'text' => $room . ': ' . $this->Translate('Temperature is lowered!'),
+                            'removable' => true, 'type' => 3, 'image' => 'Window-0', ]
+                    );
+                }
+            }
         }
     }
 
@@ -152,19 +174,42 @@ class ContactSensor extends IPSModule
         if ($this->GetTimerInterval('DelayTrigger') > 0) {
             // Timer deaktivieren
             $this->SetTimerInterval('DelayTrigger', 0);
+            $this->SendDebug('Restore', 'Timer hatte noch nicht ausgelöst - nichts gemachen!');
             // und nix mehr machen
             return;
         }
         // Thermostat wieder auf "AUTO" stellen
-        $radiator = $this->ReadPropertyInteger('Radiator1', 0);
+        $radiator = $this->ReadPropertyInteger('Radiator1');
         if ($radiator != 0) {
             $ret = HM_WriteValueInteger($radiator, 'CONTROL_MODE', 0);
             $this->SendDebug('Restore', 'Set Radiator1 control mode to auto => ' . boolval($ret));
         }
-        $radiator = $this->ReadPropertyInteger('Radiator2', 0);
+        $radiator = $this->ReadPropertyInteger('Radiator2');
         if ($radiator != 0) {
             $ret = HM_WriteValueInteger($radiator, 'CONTROL_MODE', 0);
             $this->SendDebug('Restore', 'Set Radiator2 control mode to auto => ' . boolval($ret));
+        }
+        // Meldung wenn moeglich
+        $scriptId = $this->ReadPropertyInteger('ScriptMessage');
+        if ($scriptId != 0) {
+            $room = $this->ReadPropertyString('RoomName');
+            $time = $this->ReadPropertyInteger('LifeTime');
+            $time = $time * 60;
+            if (IPS_ScriptExists($scriptId)) {
+                if ($time > 0) {
+                    IPS_RunScriptWaitEx(
+                        $scriptId,
+                        ['action'       => 'add', 'text' => $room . ': ' . $this->Translate('Temperature reduction cancelled!'), 'expires' => time() + $time,
+                            'removable' => true, 'type' => 3, 'image' => 'Window-0', ]
+                    );
+                } else {
+                    IPS_RunScriptWaitEx(
+                        $scriptId,
+                        ['action'       => 'add', 'text' => $room . ': ' . $this->Translate('Temperature reduction cancelled!'),
+                            'removable' => true, 'type' => 3, 'image' => 'Window-0', ]
+                    );
+                }
+            }
         }
     }
 

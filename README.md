@@ -35,6 +35,7 @@ Wer die Meldungsverwaltung (Thema: [Meldungsanzeige im Webfront](https://www.sym
 ### 2. Voraussetzungen
 
 * IP-Symcon ab Version 5.2
+* Heizkörpersteuerung via HmIP-WTH2 oder HmIP-eTRV(-2)
 
 ### 3. Installation
 
@@ -50,12 +51,14 @@ __Konfigurationsseite__:
 
 Name                                           | Beschreibung
 ---------------------------------------------- | ---------------------------------
+Stausvariable (Kontakt-Sensor)                 | Variable, welche den Kontaktstatus (offen/geschlossen) signalisiert
 Reaktionszeit (Verzögerung)                    | Zeit zwischen Erkennen und Schalten
 Steuerung 1 (Heizung)                          | Steuerungskanal des ersten Heizungsthermostats oder -stellantriebs
 Steuerung 2 (Heizung)                          | Steuerungskanal des zweiten Heizungsthermostats oder -stellantriebs
 Außentemperatur (Klima)                        | Aktuelle Außentemperatur
 Innentemperatur (Klima)                        | Aktuelle Raumtemperatur
 Checkbox Ventilöffnung (Bedingtes Schalten)    | Bedingung, nur Absenken wenn gerade geheizt wird (Ventilstellung > 0%)
+Positionsvariable (Bedingtes Schalten)         | Variable, welche die aktuelle Ventilposition enthält
 Checkbox Temperatur (Bedingtes Schalten)       | Bedingung, nur Absenken wenn Differenz (Schwellwert) zwischen Außen- und Innentemperatur eingestellten Wert überschreitet
 Temeraturdifferenz (Bedingtes Schalten)        | Schwellert zwischen Außen- und Innentemperatur
 Meldungsscript (Meldungsverwaltung)            | Skript ID des Meldungsverwaltungsscripts

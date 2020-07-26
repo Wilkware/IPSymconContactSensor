@@ -23,7 +23,9 @@
         "Room name:": "Raumname:",
         "Message Life Time:": "Lebensdauer der Nachricht:",
         "Always": "Immer",
-        "Unknown": "Unbekannt"
+        "Unknown": "Unbekannt",
+        "Temperature is lowered!": "Temperatur wird abgesenkt!",
+        "Temperature reduction cancelled!": "Temperaturabsenkung aufgehoben!"
     }
   }
 }
