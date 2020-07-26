@@ -148,13 +148,13 @@ class ContactSensor extends IPSModule
                     IPS_RunScriptWaitEx(
                         $scriptId,
                         ['action'       => 'add', 'text' => $room . ': ' . $this->Translate('Temperature is lowered!'), 'expires' => time() + $time,
-                            'removable' => true, 'type' => 3, 'image' => 'Window-0', ]
+                            'removable' => true, 'type' => 2, 'image' => 'Window-0', ]
                     );
                 } else {
                     IPS_RunScriptWaitEx(
                         $scriptId,
                         ['action'       => 'add', 'text' => $room . ': ' . $this->Translate('Temperature is lowered!'),
-                            'removable' => true, 'type' => 3, 'image' => 'Window-0', ]
+                            'removable' => true, 'type' => 2, 'image' => 'Window-0', ]
                     );
                 }
             }
@@ -200,13 +200,13 @@ class ContactSensor extends IPSModule
                     IPS_RunScriptWaitEx(
                         $scriptId,
                         ['action'       => 'add', 'text' => $room . ': ' . $this->Translate('Temperature reduction cancelled!'), 'expires' => time() + $time,
-                            'removable' => true, 'type' => 3, 'image' => 'Window-0', ]
+                            'removable' => true, 'type' => 0, 'image' => 'Window-0', ]
                     );
                 } else {
                     IPS_RunScriptWaitEx(
                         $scriptId,
                         ['action'       => 'add', 'text' => $room . ': ' . $this->Translate('Temperature reduction cancelled!'),
-                            'removable' => true, 'type' => 3, 'image' => 'Window-0', ]
+                            'removable' => true, 'type' => 0, 'image' => 'Window-0', ]
                     );
                 }
             }
