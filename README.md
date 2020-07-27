@@ -9,7 +9,7 @@
 Die *Toolmatic Bibliothek* ist eine kleine Tool-Sammlung im Zusammenhang mit HomeMatic/IP Geräten.  
 Hauptsächlich beinhaltet sie kleine Erweiterung zur Automatisierung von Aktoren oder erleichtert das Steuern von Geräten bzw. bietet mehr Komfort bei der Bedienung.  
   
-Der Fenster- und Türkontakt meldet entsprechend hinterlegter Verzögerungszeit das Öffnnen selbiges und kann dann verschiedene Schaltaktionen ausführen.  
+Der Fenster- und Türkontakt reagiert entsprechend hinterlegter Verzögerungszeit und Bedingungen auf das Öffnen bzw. Schließen selbiger und führt eine Temperaturabsenkung durch.  
   
 Wer die Meldungsverwaltung (Thema: [Meldungsanzeige im Webfront](https://www.symcon.de/forum/threads/12115-Meldungsanzeige-im-WebFront?highlight=Meldungsverwaltung)) kann sich über den Schaltvorgang informieren lassen.
 
