@@ -185,7 +185,7 @@ class ContactSensor extends IPSModule
             return;
         }
         // war abgesenkt?
-        if(!$this->ReadAttributeBoolean('Reduction')) {
+        if (!$this->ReadAttributeBoolean('Reduction')) {
             return;
         }
         // Thermostat wieder auf "AUTO" stellen
