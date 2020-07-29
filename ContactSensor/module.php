@@ -34,6 +34,8 @@ class ContactSensor extends IPSModule
         $this->RegisterPropertyInteger('LifeTime', 0);
         // Update trigger
         $this->RegisterTimer('DelayTrigger', 0, "TCS_Decrease(\$_IPS['TARGET']);");
+        // Internal state
+        $this->RegisterAttributeBoolean('Reduction', false);
     }
 
     public function ApplyChanges()
@@ -47,6 +49,8 @@ class ContactSensor extends IPSModule
         if (IPS_VariableExists($this->ReadPropertyInteger('StateVariable'))) {
             $this->RegisterMessage($this->ReadPropertyInteger('StateVariable'), VM_UPDATE);
         }
+        // Reset State
+        $this->WriteAttributeBoolean('Reduction', false);
     }
 
     /**
@@ -137,6 +141,8 @@ class ContactSensor extends IPSModule
             $ret = HM_WriteValueFloat($radiator, 'SET_POINT_TEMPERATURE', 12);
             $this->SendDebug('Decrease', 'Set Radiator2 control mode to MANUAL => ' . boolval($ret));
         }
+        // Internal State
+        $this->WriteAttributeBoolean('Reduction', true);
         // Meldung wenn moeglich
         $scriptId = $this->ReadPropertyInteger('ScriptMessage');
         if ($scriptId != 0) {
@@ -178,6 +184,10 @@ class ContactSensor extends IPSModule
             // und nix mehr machen
             return;
         }
+        // war abgesenkt?
+        if(!$this->ReadAttributeBoolean('Reduction')) {
+            return;
+        }
         // Thermostat wieder auf "AUTO" stellen
         $radiator = $this->ReadPropertyInteger('Radiator1');
         if ($radiator != 0) {
@@ -189,6 +199,8 @@ class ContactSensor extends IPSModule
             $ret = HM_WriteValueInteger($radiator, 'CONTROL_MODE', 0);
             $this->SendDebug('Restore', 'Set Radiator2 control mode to auto => ' . boolval($ret));
         }
+        // Internal State
+        $this->WriteAttributeBoolean('Reduction', false);
         // Meldung wenn moeglich
         $scriptId = $this->ReadPropertyInteger('ScriptMessage');
         if ($scriptId != 0) {
