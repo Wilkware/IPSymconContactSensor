@@ -1,21 +1,49 @@
 {
   "elements": [
-    {"type": "ExpansionPanel", "caption": "Contact Sensor",
+    {"type": "ExpansionPanel", "caption": "Contact Sensors",
       "items": [
-        {"type": "SelectVariable", "name": "StateVariable", "caption": "State Variable:" }
+        {"type": "SelectVariable", "name": "StateVariable", "caption": "Sensor 1:" },
+        {"type": "SelectVariable", "name": "StateVariable2", "caption": "Sensor 2:" }
       ]
     },
-    {"type": "ExpansionPanel", "caption": "Lowering the heating",
+    {"type": "ExpansionPanel", "caption": "Conditional switching",
       "items": [
         {"type": "NumberSpinner", "name": "Delay", "caption": "Reaction time:", "suffix": "seconds"},
         {"type": "CheckBox", "name": "OpenValve", "caption": "Lowering when heating is in progress (valve position > 0%)?"},
         {"type": "SelectVariable", "name": "Level", "caption": "Level Variable:" },
         {"type": "CheckBox", "name": "TempDiff", "caption": "Set-back when difference between outdoor and indoor temperature exceeds set value?"},
-        {"type": "NumberSpinner", "name": "Difference", "caption": "Temperature difference:", "suffix": "°C"}
+        {"type": "NumberSpinner", "name": "Difference", "caption": "Temperature difference:", "suffix": "°C"},
+
+        {"type": "CheckBox", "name": "RepeatCheck", "caption": "Check conditions repeatedly according to set time?"},
+        {"type": "Select", "name": "RepeatTime", "caption": "Time span (repetition interval):",
+          "options": [
+            {"label": "1 min", "value": 1 },
+            {"label": "2 min", "value": 2 },
+            {"label": "3 min", "value": 3 },
+            {"label": "4 min", "value": 4 },
+            {"label": "5 min", "value": 5 },
+            {"label": "10 min", "value": 10 },
+            {"label": "15 min", "value": 15 }
+          ]
+        },
+        {"type": "CheckBox", "name": "SwitchBack", "caption": "Cancel lowering automatically after set time?"},
+        {"type": "Select", "name": "SwitchTime", "caption": "Time span (cancel lowering):",
+          "options": [
+            {"label": "10 min", "value": 10 },
+            {"label": "20 min", "value": 20 },
+            {"label": "30 min", "value": 30 },
+            {"label": "40 min", "value": 40 },
+            {"label": "50 min", "value": 50 },
+            {"label": "1 h", "value": 60 },
+            {"label": "2 h", "value": 120 },
+            {"label": "5 h", "value": 300 }
+          ]
+        }
       ]
     },
     {"type": "ExpansionPanel", "caption": "Heating system",
       "items": [
+        {"type": "Label", "caption": "Currently only thermostats and actuators HmIP-WTH2 and HmIP-eTRV(-2/c) are supported!" },
         {"type": "SelectInstance", "name": "Radiator1", "caption": "Heater 1:"},
         {"type": "SelectInstance", "name": "Radiator2", "caption": "Heater 2:"}
       ]

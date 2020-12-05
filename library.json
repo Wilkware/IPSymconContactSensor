@@ -1,6 +1,9 @@
 {
   "id": "{7167D3CA-E0BA-DC0E-2227-346FBF948D0C}",
   "author": "Wilkware (@Pitti)",
+  "compatibility": {
+    "version": "5.2"
+  },  
   "name": "Toolmatic Contact Sensor",
   "url": "https://github.com/Wilkware",
   "version": "1.0",

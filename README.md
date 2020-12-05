@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 [![Product](https://img.shields.io/badge/Symcon%20Version-5.2%20%3E-blue.svg)](https://www.symcon.de/produkt/)
-[![Version](https://img.shields.io/badge/Modul%20Version-1.0.20200515-orange.svg)](https://github.com/Wilkware/IPSymconContactSensor)
+[![Version](https://img.shields.io/badge/Modul%20Version-1.1.20201204-orange.svg)](https://github.com/Wilkware/IPSymconContactSensor)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Actions](https://github.com/Wilkware/IPSymconContactSensor/workflows/Check%20Style/badge.svg)](https://github.com/Wilkware/IPSymconContactSensor/actions)
 
@@ -26,11 +26,14 @@ Wer die Meldungsverwaltung (Thema: [Meldungsanzeige im Webfront](https://www.sym
 
 ### 1. Funktionsumfang
 
+* Überwachen von bis zu 2 Kontaktsensoren (z.B. pro Raum)
 * Verzögertes Absenken der Heizung entsprechend eingestellter Zeit
 * Schalten von bis zu 2 Heizkörpern (Thermostaten bzw. Ventilantrieben)
 * Bedingtes Schalten in Abhängigkeit ...
   * der Ventilstellung / Ventilöffnung
   * der Differenz zwischen Aussen- und Innentemperatur
+  * Wiederholtes Testen der Bedingungen nach einstellbarer Zeit
+* Automatisches Aufheben der Absenkung unabhänig von Zustand der Sensoren
 
 ### 2. Voraussetzungen
 
@@ -45,25 +48,30 @@ Wer die Meldungsverwaltung (Thema: [Meldungsanzeige im Webfront](https://www.sym
 
 ### 4. Einrichten der Instanzen in IP-Symcon
 
-* Unter 'Instanz hinzufügen' ist das *Fenster- und Türkontakt*-Modul (Alias: *Door Contact* oder *Window Contact*) unter dem Hersteller '(Geräte)' aufgeführt.
+* Unter 'Instanz hinzufügen' ist das *Contact Sensor*-Modul (Alias: *Türkontakt* oder *Fensterkontakt*) unter dem Hersteller '(Geräte)' aufgeführt.
 
 __Konfigurationsseite__:
 
-Name                                           | Beschreibung
----------------------------------------------- | ---------------------------------
-Stausvariable (Kontakt-Sensor)                 | Variable, welche den Kontaktstatus (offen/geschlossen) signalisiert
-Reaktionszeit (Verzögerung)                    | Zeit zwischen Erkennen und Schalten
-Steuerung 1 (Heizung)                          | Steuerungskanal des ersten Heizungsthermostats oder -stellantriebs
-Steuerung 2 (Heizung)                          | Steuerungskanal des zweiten Heizungsthermostats oder -stellantriebs
-Außentemperatur (Klima)                        | Aktuelle Außentemperatur
-Innentemperatur (Klima)                        | Aktuelle Raumtemperatur
-Checkbox Ventilöffnung (Bedingtes Schalten)    | Bedingung, nur Absenken wenn gerade geheizt wird (Ventilstellung > 0%)
-Positionsvariable (Bedingtes Schalten)         | Variable, welche die aktuelle Ventilposition enthält
-Checkbox Temperatur (Bedingtes Schalten)       | Bedingung, nur Absenken wenn Differenz (Schwellwert) zwischen Außen- und Innentemperatur eingestellten Wert überschreitet
-Temeraturdifferenz (Bedingtes Schalten)        | Schwellert zwischen Außen- und Innentemperatur
-Meldungsscript (Meldungsverwaltung)            | Skript ID des Meldungsverwaltungsscripts
-Raumname (Meldungsverwaltung)                  | Text zur eindeutigen Zuordnung des Raums
-Lebensdauer der Nachricht (Meldungsverwaltung) | Wie lange so die Info angezeigt werden?
+Name                            | Gruppierung          | Beschreibung
+------------------------------- | -------------------- | -----------------------------------------------------------------
+1.Sensor                        | Kontakt-Sensoren    | Statusvariable, eines Kontaktsensors (offen/geschlossen)
+2.Sensor                        | Kontakt-Sensoren    | StatusVariable, eines weiteren Kontaktsensors (offen/geschlossen)
+Reaktionszeit (Verzögerung)     | Bedingtes Schalten  | Zeit zwischen Erkennen und Schalten
+Checkbox Ventilöffnung          | Bedingtes Schalten  | Nur Absenken wenn gerade geheizt wird (Ventilstellung > 0%)
+Positionsvariable               | Bedingtes Schalten  | Variable, welche die aktuelle Ventilposition enthält
+Checkbox Temperatur             | Bedingtes Schalten  | Nur Absenken wenn Differenz (Schwellwert) zwischen Außen- und Innentemperatur eingestellten Wert überschreitet
+Temeraturdifferenz              | Bedingtes Schalten  | Schwellert zwischen Außen- und Innentemperatur
+Checkbox Wiederholungsintervall | Bedingtes Schalten  | Zeitraum in welchem wiederholt die eingstellten Bedingungen (Ventilposition & Temperaturdifferenz) getestet werden
+Zeitspanne (Wiederholung)       | Bedingtes Schalten  | Intervall (Zeit) zwischen den Tests
+Checkbox Absenkung aufheben     | Bedingtes Schalten  | Aktivierung der automatischen Aufhebung der Absenkung unabhängig vom Zustand der Sensoren
+Zeitspanne (Aufhebung)          | Bedingtes Schalten  | Zeitraum nach dem die Absenkung aufgehoben werden soll
+1.Heizkörper                    | Heizungssystem      | Steuerungskanal des ersten Heizungsthermostats oder -stellantriebs
+2.Heizkörper                    | Heizungssystem      | Steuerungskanal des zweiten Heizungsthermostats oder -stellantriebs
+Außentemperatur                 | Klimawerte          | Aktuelle Außentemperatur
+Innentemperatur                 | Klimawerte          | Aktuelle Raumtemperatur
+Meldungsscript                  | Meldungsverwaltung  | Skript ID des Meldungsverwaltungsscripts
+Raumname                        | Meldungsverwaltung  | Text zur eindeutigen Zuordnung des Raums
+Lebensdauer der Nachricht       | Meldungsverwaltung  | Wie lange so die Info angezeigt werden?
 
 ### 5. Statusvariablen und Profile
 
@@ -89,6 +97,15 @@ __Beispiel__: `TCS_Delay(12345, 60);`
 **_HINWEIS_**: **Durch das Aufrufen der Funktion wird die Konfiguration neu geschrieben, dieses kann bei gleichzeitig geöffneter Konfiguration (Konfigurationsformular) zu Verlust noch nicht gespeicherter Veränderungen führen.**
 
 ### 8. Versionshistorie
+
+v1.1.20201204
+
+* _NEU_: 2. Kontaktsensor hinzugefügt
+* _NEU_: Wiederholungsintervall für bedingtes Schalten hinzugefügt
+* _NEU_: Zeitspanne für Aufhebung der Absenkung hinzugefügt
+* _NEU_: Aliase für Modul auf Türkontakt und Fensterkontakt geändert
+* _FIX_: Schaltungslogik komplett neu umgesetzt (via *WINDOW_STATE*)
+* _FIX_: Meldungslogik umgebaut
 
 v1.0.20200515
 
