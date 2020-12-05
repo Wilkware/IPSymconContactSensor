@@ -85,16 +85,7 @@ _Hinweis:_ Das Script 'Meldungsanzeige im Webfront' (Meldungsverwaltung) wird un
 
 ### 7. PHP-Befehlsreferenz
 
-```php
-void TCS_Delay(int $InstanzID, int $Seconds);
-```
-
-Setzt die Verzögerungs-/Reaktionszeit (Timer) auf die neuen 'x' Sekunden.  
-Die Funktion liefert keinerlei Rückgabewert.
-
-__Beispiel__: `TCS_Delay(12345, 60);`
-
-**_HINWEIS_**: **Durch das Aufrufen der Funktion wird die Konfiguration neu geschrieben, dieses kann bei gleichzeitig geöffneter Konfiguration (Konfigurationsformular) zu Verlust noch nicht gespeicherter Veränderungen führen.**
+Das Modul stellt keine direkten Funktionsaufrufe zur Verfügung.
 
 ### 8. Versionshistorie
 
@@ -105,6 +96,7 @@ v1.1.20201204
 * _NEU_: Zeitspanne für Aufhebung der Absenkung hinzugefügt
 * _NEU_: Aliase für Modul auf Türkontakt und Fensterkontakt geändert
 * _FIX_: Schaltungslogik komplett neu umgesetzt (via *WINDOW_STATE*)
+* _FIX_: Zugriff auf interne Funktionen aufgehoben
 * _FIX_: Meldungslogik umgebaut
 
 v1.0.20200515
