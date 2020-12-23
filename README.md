@@ -26,7 +26,7 @@ Wer die Meldungsverwaltung (Thema: [Meldungsanzeige im Webfront](https://www.sym
 
 ### 1. Funktionsumfang
 
-* Überwachen von bis zu 2 Kontaktsensoren (z.B. pro Raum)
+* Überwachen von bis zu 4 Kontaktsensoren (z.B. pro Raum)
 * Verzögertes Absenken der Heizung entsprechend eingestellter Zeit
 * Schalten von bis zu 2 Heizkörpern (Thermostaten bzw. Ventilantrieben)
 * Bedingtes Schalten in Abhängigkeit ...
