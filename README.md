@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 [![Product](https://img.shields.io/badge/Symcon%20Version-5.2%20%3E-blue.svg)](https://www.symcon.de/produkt/)
-[![Version](https://img.shields.io/badge/Modul%20Version-1.1.20201204-orange.svg)](https://github.com/Wilkware/IPSymconContactSensor)
+[![Version](https://img.shields.io/badge/Modul%20Version-1.2.20201219-orange.svg)](https://github.com/Wilkware/IPSymconContactSensor)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Actions](https://github.com/Wilkware/IPSymconContactSensor/workflows/Check%20Style/badge.svg)](https://github.com/Wilkware/IPSymconContactSensor/actions)
 
@@ -88,6 +88,11 @@ _Hinweis:_ Das Script 'Meldungsanzeige im Webfront' (Meldungsverwaltung) wird un
 Das Modul stellt keine direkten Funktionsaufrufe zur Verfügung.
 
 ### 8. Versionshistorie
+
+v1.2.20201219
+
+* _NEU_: 3. und 4. Kontaktsensor hinzugefügt
+* _FIX_: Meldungslogik verbessert
 
 v1.1.20201204
 

@@ -4,6 +4,8 @@
         "Contact Sensors": "Kontakt-Sensoren",
         "Sensor 1:": "1.Sensor:",
         "Sensor 2:": "2.Sensor:",
+        "Sensor 3:": "3.Sensor:",
+        "Sensor 4:": "4.Sensor:",
         "Conditional switching": "Bedingtes Schalten",
         "Reaction time:": "Reaktionszeit (Verzögerung):",
         "Lowering when heating is in progress (valve position > 0%)?": "Absenkung nur bei laufender Heizung (Ventilstellung > 0%)",

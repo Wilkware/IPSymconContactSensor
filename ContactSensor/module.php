@@ -17,6 +17,8 @@ class ContactSensor extends IPSModule
         // Contact state variables
         $this->RegisterPropertyInteger('StateVariable', 0);
         $this->RegisterPropertyInteger('StateVariable2', 0);
+        $this->RegisterPropertyInteger('StateVariable3', 0);
+        $this->RegisterPropertyInteger('StateVariable4', 0);
         // Decrease variables
         $this->RegisterPropertyInteger('Delay', 30);
         $this->RegisterPropertyBoolean('OpenValve', false);
@@ -57,6 +59,12 @@ class ContactSensor extends IPSModule
         if ($this->ReadPropertyInteger('StateVariable2') != 0) {
             $this->UnregisterMessage($this->ReadPropertyInteger('StateVariable2'), VM_UPDATE);
         }
+        if ($this->ReadPropertyInteger('StateVariable3') != 0) {
+            $this->UnregisterMessage($this->ReadPropertyInteger('StateVariable3'), VM_UPDATE);
+        }
+        if ($this->ReadPropertyInteger('StateVariable4') != 0) {
+            $this->UnregisterMessage($this->ReadPropertyInteger('StateVariable4'), VM_UPDATE);
+        }
         //Never delete this line!
         parent::ApplyChanges();
         //Create our trigger
@@ -65,6 +73,12 @@ class ContactSensor extends IPSModule
         }
         if (IPS_VariableExists($this->ReadPropertyInteger('StateVariable2'))) {
             $this->RegisterMessage($this->ReadPropertyInteger('StateVariable2'), VM_UPDATE);
+        }
+        if (IPS_VariableExists($this->ReadPropertyInteger('StateVariable3'))) {
+            $this->RegisterMessage($this->ReadPropertyInteger('StateVariable3'), VM_UPDATE);
+        }
+        if (IPS_VariableExists($this->ReadPropertyInteger('StateVariable3'))) {
+            $this->RegisterMessage($this->ReadPropertyInteger('StateVariable3'), VM_UPDATE);
         }
         // Set Internal State
         $this->InternalState();
@@ -105,6 +119,30 @@ class ContactSensor extends IPSModule
                         $this->Close(2);
                     } else { // OnChange - keine Zustandsaenderung
                         $this->SendDebug('MessageSink', 'Kontaktsender 2: State unveraendert - keine Zustandsänderung');
+                    }
+                } elseif ($senderID == $this->ReadPropertyInteger('StateVariable3')) {
+                    $this->SendDebug('MessageSink', 'Kontaktsender 3: #' . $senderID . ', New: ' . $data[0] . ', Changed: ' . var_export($data[1], true) . ', Old: ' . $data[2], 0);
+                    // Zustandsänderung ?
+                    if ($data[0] == 1 && $data[1] == true) { // State auf 1, d.h. OPEN
+                        $this->SendDebug('MessageSink', 'Kontaktsender 3: State auf <OPEN> geschalten');
+                        $this->Open(4);
+                    } elseif ($data[0] == 0 && $data[1] == true) { // State auf 0, d.h. CLOSE
+                        $this->SendDebug('MessageSink', 'Kontaktsender 3: State auf <CLOSE> geschalten');
+                        $this->Close(4);
+                    } else { // OnChange - keine Zustandsaenderung
+                        $this->SendDebug('MessageSink', 'Kontaktsender 3: State unveraendert - keine Zustandsänderung');
+                    }
+                } elseif ($senderID == $this->ReadPropertyInteger('StateVariable4')) {
+                    $this->SendDebug('MessageSink', 'Kontaktsender 4: #' . $senderID . ', New: ' . $data[0] . ', Changed: ' . var_export($data[1], true) . ', Old: ' . $data[2], 0);
+                    // Zustandsänderung ?
+                    if ($data[0] == 1 && $data[1] == true) { // State auf 1, d.h. OPEN
+                        $this->SendDebug('MessageSink', 'Kontaktsender 4: State auf <OPEN> geschalten');
+                        $this->Open(8);
+                    } elseif ($data[0] == 0 && $data[1] == true) { // State auf 0, d.h. CLOSE
+                        $this->SendDebug('MessageSink', 'Kontaktsender 4: State auf <CLOSE> geschalten');
+                        $this->Close(8);
+                    } else { // OnChange - keine Zustandsaenderung
+                        $this->SendDebug('MessageSink', 'Kontaktsender 4: State unveraendert - keine Zustandsänderung');
                     }
                 } else {
                     $this->SendDebug('MessageSink', 'Kontaktsender: #' . $senderID . ' unbekannt!');
@@ -303,6 +341,9 @@ class ContactSensor extends IPSModule
                 if ($msg > 0) {
                     IPS_RunScriptWaitEx($scriptId, ['action' => 'remove', 'number' => $msg]);
                 }
+            } else {
+                // Time only for the remove state
+                $time = 0;
             }
             // send new message
             if (IPS_ScriptExists($scriptId)) {

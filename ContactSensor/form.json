@@ -3,7 +3,9 @@
     {"type": "ExpansionPanel", "caption": "Contact Sensors",
       "items": [
         {"type": "SelectVariable", "name": "StateVariable", "caption": "Sensor 1:" },
-        {"type": "SelectVariable", "name": "StateVariable2", "caption": "Sensor 2:" }
+        {"type": "SelectVariable", "name": "StateVariable2", "caption": "Sensor 2:" },
+        {"type": "SelectVariable", "name": "StateVariable3", "caption": "Sensor 3:" },
+        {"type": "SelectVariable", "name": "StateVariable4", "caption": "Sensor 4:" }
       ]
     },
     {"type": "ExpansionPanel", "caption": "Conditional switching",
