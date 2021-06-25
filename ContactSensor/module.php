@@ -300,7 +300,7 @@ class ContactSensor extends IPSModule
         $radiator = $this->ReadPropertyInteger('Radiator1');
         if ($radiator != 0) {
             $ret = @HM_WriteValueInteger($radiator, 'WINDOW_STATE', 0);
-            if($ret === FALSE) {
+            if ($ret === false) {
                 $this->LogMessage('Error writing WINDOW_STATE #1', KL_ERROR);
             }
             $this->SendDebug(__FUNCTION__, 'Heizkörper 1: #' . $radiator . ' Fensterstatus auf CLOSE setzen => ' . var_export($ret, true));
@@ -309,7 +309,7 @@ class ContactSensor extends IPSModule
         $radiator = $this->ReadPropertyInteger('Radiator2');
         if ($radiator != 0) {
             $ret = @HM_WriteValueInteger($radiator, 'WINDOW_STATE', 0);
-            if($ret === FALSE) {
+            if ($ret === false) {
                 $this->LogMessage('Error writing WINDOW_STATE #2', KL_ERROR);
             }
             $this->SendDebug(__FUNCTION__, 'Heizkörper 2: #' . $radiator . ' Fensterstatus auf CLOSE setzen => ' . var_export($ret, true));
