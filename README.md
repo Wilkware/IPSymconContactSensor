@@ -33,7 +33,7 @@ Wer die Meldungsverwaltung (Thema: [Meldungsanzeige im Webfront](https://www.sym
   * der Ventilstellung / Ventilöffnung
   * der Differenz zwischen Aussen- und Innentemperatur
   * Wiederholtes Testen der Bedingungen nach einstellbarer Zeit
-* Automatisches Aufheben der Absenkung unabhänig von Zustand der Sensoren
+* Automatisches Aufheben der Absenkung unabhängig von Zustand der Sensoren
 
 ### 2. Voraussetzungen
 

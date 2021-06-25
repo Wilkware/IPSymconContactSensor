@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../libs/traits.php';  // Allgemeine Funktionen
+// Allgemeine Funktionen
+require_once __DIR__ . '/../libs/_traits.php';
 
 // CLASS ContactSensor
 class ContactSensor extends IPSModule
@@ -298,14 +299,20 @@ class ContactSensor extends IPSModule
         // HM 'WINDOW_STATE' set to <CLOSE>
         $radiator = $this->ReadPropertyInteger('Radiator1');
         if ($radiator != 0) {
-            $ret = HM_WriteValueInteger($radiator, 'WINDOW_STATE', 0);
-            $this->SendDebug('Restore', 'Heizkörper 1: #' . $radiator . ' Fensterstatus auf CLOSE setzen => ' . var_export($ret, true));
+            $ret = @HM_WriteValueInteger($radiator, 'WINDOW_STATE', 0);
+            if($ret === FALSE) {
+                $this->LogMessage('Error writing WINDOW_STATE #1', KL_ERROR);
+            }
+            $this->SendDebug(__FUNCTION__, 'Heizkörper 1: #' . $radiator . ' Fensterstatus auf CLOSE setzen => ' . var_export($ret, true));
         }
         // HM 'WINDOW_STATE' set to <CLOSE>
         $radiator = $this->ReadPropertyInteger('Radiator2');
         if ($radiator != 0) {
-            $ret = HM_WriteValueInteger($radiator, 'WINDOW_STATE', 0);
-            $this->SendDebug('Restore', 'Heizkörper 2: #' . $radiator . ' Fensterstatus auf CLOSE setzen => ' . var_export($ret, true));
+            $ret = @HM_WriteValueInteger($radiator, 'WINDOW_STATE', 0);
+            if($ret === FALSE) {
+                $this->LogMessage('Error writing WINDOW_STATE #2', KL_ERROR);
+            }
+            $this->SendDebug(__FUNCTION__, 'Heizkörper 2: #' . $radiator . ' Fensterstatus auf CLOSE setzen => ' . var_export($ret, true));
         }
         // Internal State
         $this->WriteAttributeBoolean('Reduction', false);
