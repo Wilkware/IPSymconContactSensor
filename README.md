@@ -49,26 +49,60 @@ Wer die Meldungsverwaltung (Thema: [Meldungsanzeige im Webfront](https://www.sym
 
 __Konfigurationsseite__:
 
-Name                            | Gruppierung          | Beschreibung
-------------------------------- | -------------------- | -----------------------------------------------------------------
-1.Sensor                        | Kontakt-Sensoren    | Statusvariable, eines Kontaktsensors (offen/geschlossen)
-2.Sensor                        | Kontakt-Sensoren    | StatusVariable, eines weiteren Kontaktsensors (offen/geschlossen)
-Reaktionszeit (Verzögerung)     | Bedingtes Schalten  | Zeit zwischen Erkennen und Schalten
-Checkbox Ventilöffnung          | Bedingtes Schalten  | Nur Absenken wenn gerade geheizt wird (Ventilstellung > 0%)
-Positionsvariable               | Bedingtes Schalten  | Variable, welche die aktuelle Ventilposition enthält
-Checkbox Temperatur             | Bedingtes Schalten  | Nur Absenken wenn Differenz (Schwellwert) zwischen Außen- und Innentemperatur eingestellten Wert überschreitet
-Temeraturdifferenz              | Bedingtes Schalten  | Schwellert zwischen Außen- und Innentemperatur
-Checkbox Wiederholungsintervall | Bedingtes Schalten  | Zeitraum in welchem wiederholt die eingstellten Bedingungen (Ventilposition & Temperaturdifferenz) getestet werden
-Zeitspanne (Wiederholung)       | Bedingtes Schalten  | Intervall (Zeit) zwischen den Tests
-Checkbox Absenkung aufheben     | Bedingtes Schalten  | Aktivierung der automatischen Aufhebung der Absenkung unabhängig vom Zustand der Sensoren
-Zeitspanne (Aufhebung)          | Bedingtes Schalten  | Zeitraum nach dem die Absenkung aufgehoben werden soll
-1.Heizkörper                    | Heizungssystem      | Steuerungskanal des ersten Heizungsthermostats oder -stellantriebs
-2.Heizkörper                    | Heizungssystem      | Steuerungskanal des zweiten Heizungsthermostats oder -stellantriebs
-Außentemperatur                 | Klimawerte          | Aktuelle Außentemperatur
-Innentemperatur                 | Klimawerte          | Aktuelle Raumtemperatur
-Meldungsscript                  | Meldungsverwaltung  | Skript ID des Meldungsverwaltungsscripts
-Raumname                        | Meldungsverwaltung  | Text zur eindeutigen Zuordnung des Raums
-Lebensdauer der Nachricht       | Meldungsverwaltung  | Wie lange so die Info angezeigt werden?
+Einstellungsbereich:
+
+> Kontakt-Sensoren ...
+
+Name                            | Beschreibung
+------------------------------- | -----------------------------------------------------------------
+1.Sensor                        | Statusvariable, eines Kontaktsensors (offen/geschlossen)
+2.Sensor                        | StatusVariable, eines zweiten Kontaktsensors (offen/geschlossen)
+3.Sensor                        | StatusVariable, eines dritten Kontaktsensors (offen/geschlossen)
+4.Sensor                        | StatusVariable, eines vierten Kontaktsensors (offen/geschlossen)
+
+> Bedingtes Schalten ...
+
+Name                            | Beschreibung
+------------------------------- | -----------------------------------------------------------------
+Reaktionszeit (Verzögerung)     | Zeit zwischen Erkennen und Schalten
+Checkbox Ventilöffnung          | Nur Absenken wenn gerade geheizt wird (Ventilstellung > 0%)
+Positionsvariable               | Variable, welche die aktuelle Ventilposition enthält
+Checkbox Temperatur             | Nur Absenken wenn Differenz (Schwellwert) zwischen Außen- und Innentemperatur eingestellten Wert überschreitet
+Temeraturdifferenz              | Schwellert zwischen Außen- und Innentemperatur
+Checkbox Wiederholungsintervall | Zeitraum in welchem wiederholt die eingstellten Bedingungen (Ventilposition & Temperaturdifferenz) getestet werden
+Zeitspanne (Wiederholung)       | Intervall (Zeit) zwischen den Tests
+Checkbox Absenkung aufheben     | Aktivierung der automatischen Aufhebung der Absenkung unabhängig vom Zustand der Sensoren
+Zeitspanne (Aufhebung)          | Zeitraum nach dem die Absenkung aufgehoben werden soll
+
+> Heizungssystem ...
+
+Name                            | Beschreibung
+------------------------------- | -----------------------------------------------------------------
+1.Heizkörper                    | Steuerungskanal des ersten Heizungsthermostats oder -stellantriebs
+2.Heizkörper                    | Steuerungskanal des zweiten Heizungsthermostats oder -stellantriebs
+
+> Klimawerte ...
+
+Name                            | Beschreibung
+------------------------------- | -----------------------------------------------------------------
+Außentemperatur                 | Aktuelle Außentemperatur
+Innentemperatur                 | Aktuelle Raumtemperatur
+
+> Meldungsverwaltung ...
+
+Name                                 | Beschreibung
+------------------------------------ | -----------------------------------------------------------------
+Meldung an Anzeige senden            | Auswahl ob Eintrag in die Meldungsverwaltung erfolgen soll oder nicht (Ja/Nein)
+Auslöser der Nachricht               | Auswahl bei welcher Aktion eine Nachricht erfolgen soll
+Lebensdauer der Nachricht (Öffnen)   | Wie lange soll die öffnende Meldung angezeigt werden?
+Lebensdauer der Nachricht (Schließen)| Wie lange soll die schließende Meldung angezeigt werden?
+Nachricht ans Webfront senden        | Auswahl ob Push-Nachricht gesendet werden soll oder nicht (Ja/Nein)
+Auslöser der Nachricht               | Auswahl bei welcher Aktion eine Nachricht erfolgen soll
+Raumname                             | Text zur eindeutigen Zuordnung des Raums
+Format der Textmitteilung (Öffnen)   | Frei wählbares Format der öffnenden Nachricht/Meldung
+Format der Textmitteilung (Schließen)| Frei wählbares Format der schließenden Nachricht/Meldung
+WebFront Instanz                     | ID des Webfronts, an welches die Push-Nachrichten gesendet werden soll
+Meldsungsskript                      | Skript ID des Meldungsverwaltungsskripts
 
 ### 5. Statusvariablen und Profile
 
