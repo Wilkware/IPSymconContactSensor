@@ -1,28 +1,25 @@
 # Toolmatic Contact Sensor (Fenster- und Türkontakt)
 
 [![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Product](https://img.shields.io/badge/Symcon%20Version-5.2%20%3E-blue.svg)](https://www.symcon.de/produkt/)
-[![Version](https://img.shields.io/badge/Modul%20Version-1.2.20201219-orange.svg)](https://github.com/Wilkware/IPSymconContactSensor)
+[![Product](https://img.shields.io/badge/Symcon%20Version-6.0%20%3E-blue.svg)](https://www.symcon.de/produkt/)
+[![Version](https://img.shields.io/badge/Modul%20Version-2.0.20221204-orange.svg)](https://github.com/Wilkware/IPSymconContactSensor)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Actions](https://github.com/Wilkware/IPSymconContactSensor/workflows/Check%20Style/badge.svg)](https://github.com/Wilkware/IPSymconContactSensor/actions)
 
-Die *Toolmatic Bibliothek* ist eine kleine Tool-Sammlung im Zusammenhang mit HomeMatic/IP Geräten.  
-Hauptsächlich beinhaltet sie kleine Erweiterung zur Automatisierung von Aktoren oder erleichtert das Steuern von Geräten bzw. bietet mehr Komfort bei der Bedienung.  
-  
-Der Fenster- und Türkontakt reagiert entsprechend hinterlegter Verzögerungszeit und Bedingungen auf das Öffnen bzw. Schließen selbiger und führt eine Temperaturabsenkung durch.  
+Das Modul reagiert entsprechend hinterlegter Verzögerungszeit und Bedingungen auf das Öffnen bzw. Schließen von Fenster- bzw. Türkontakten und führt eine Temperaturabsenkung durch.  
   
 Wer die Meldungsverwaltung (Thema: [Meldungsanzeige im Webfront](https://www.symcon.de/forum/threads/12115-Meldungsanzeige-im-WebFront?highlight=Meldungsverwaltung)) kann sich über den Schaltvorgang informieren lassen.
 
 ## Inhaltverzeichnis
 
-1. [Funktionsumfang](#1-funktionsumfang)
-2. [Voraussetzungen](#2-voraussetzungen)
-3. [Installation](#3-installation)
-4. [Einrichten der Instanzen in IP-Symcon](#4-einrichten-der-instanzen-in-ip-symcon)
-5. [Statusvariablen und Profile](#5-statusvariablen-und-profile)
-6. [WebFront](#6-webfront)
-7. [PHP-Befehlsreferenz](#7-php-befehlsreferenz)
-8. [Versionshistorie](#8-versionshistorie)
+1. [Funktionsumfang](#user-content-1-funktionsumfang)
+2. [Voraussetzungen](#user-content-2-voraussetzungen)
+3. [Installation](#user-content-3-installation)
+4. [Einrichten der Instanzen in IP-Symcon](#user-content-4-einrichten-der-instanzen-in-ip-symcon)
+5. [Statusvariablen und Profile](#user-content-5-statusvariablen-und-profile)
+6. [WebFront](#user-content-6-webfront)
+7. [PHP-Befehlsreferenz](#user-content-7-php-befehlsreferenz)
+8. [Versionshistorie](#user-content-8-versionshistorie)
 
 ### 1. Funktionsumfang
 
@@ -37,18 +34,18 @@ Wer die Meldungsverwaltung (Thema: [Meldungsanzeige im Webfront](https://www.sym
 
 ### 2. Voraussetzungen
 
-* IP-Symcon ab Version 5.2
-* Heizkörpersteuerung via HmIP-WTH2 oder HmIP-eTRV(-2)
+* IP-Symcon ab Version 6.0
+* Heizkörpersteuerung getestet mit HmIP-WTH2 und/oder HmIP-eTRV(-2)
 
 ### 3. Installation
 
-* Über den Modul Store das Modul *Toolmatic Contact Sensor* installieren.
+* Über den Modul Store das Modul _Contact Sensor_ installieren.
 * Alternativ Über das Modul-Control folgende URL hinzufügen.  
 `https://github.com/Wilkware/IPSymconContactSensor` oder `git://github.com/Wilkware/IPSymconContactSensor.git`
 
 ### 4. Einrichten der Instanzen in IP-Symcon
 
-* Unter 'Instanz hinzufügen' ist das *Contact Sensor*-Modul (Alias: *Türkontakt* oder *Fensterkontakt*) unter dem Hersteller '(Geräte)' aufgeführt.
+* Unter 'Instanz hinzufügen' ist das _Contact Sensor_-Modul (Alias: _Türkontakt_ oder _Fensterkontakt_) unter dem Hersteller '(Geräte)' aufgeführt.
 
 __Konfigurationsseite__:
 
@@ -89,6 +86,14 @@ Das Modul stellt keine direkten Funktionsaufrufe zur Verfügung.
 
 ### 8. Versionshistorie
 
+v2.0.20221204
+
+* _NEU_: Konfigurationsformular überarbeitet und vereinheitlicht
+* _NEU_: Kompatibilität auf 6.0 hoch gesetzt
+* _NEU_: Meldungswesen komplett überarbeitet und erweitert
+* _FIX_: Interne Bibliotheken überarbeitet und vereinheitlicht
+* _FIX_: Dokumentation überarbeitet
+
 v1.2.20201219
 
 * _NEU_: 3. und 4. Kontaktsensor hinzugefügt
@@ -100,7 +105,7 @@ v1.1.20201204
 * _NEU_: Wiederholungsintervall für bedingtes Schalten hinzugefügt
 * _NEU_: Zeitspanne für Aufhebung der Absenkung hinzugefügt
 * _NEU_: Aliase für Modul auf Türkontakt und Fensterkontakt geändert
-* _FIX_: Schaltungslogik komplett neu umgesetzt (via *WINDOW_STATE*)
+* _FIX_: Schaltungslogik komplett neu umgesetzt (via _WINDOW_STATE_)
 * _FIX_: Zugriff auf interne Funktionen aufgehoben
 * _FIX_: Meldungslogik umgebaut
 
@@ -110,14 +115,18 @@ v1.0.20200515
 
 ## Entwickler
 
-* Heiko Wilknitz ([@wilkware](https://github.com/wilkware))
+Seit nunmehr über 10 Jahren fasziniert mich das Thema Haussteuerung. In den letzten Jahren betätige ich mich auch intensiv in der IP-Symcon Community und steuere dort verschiedenste Skript und Module bei. Ihr findet mich dort unter dem Namen @pitti ;-)
+
+[![GitHub](https://img.shields.io/badge/GitHub-@wilkware-181717.svg?style=for-the-badge&logo=github)](https://wilkware.github.io/)
 
 ## Spenden
 
-Die Software ist für die nicht kommzerielle Nutzung kostenlos, Schenkungen als Unterstützung für den Entwickler bitte hier:
+Die Software ist für die nicht kommzerielle Nutzung kostenlos, über eine Spende bei Gefallen des Moduls würde ich mich freuen.
 
-[![License](https://img.shields.io/badge/Einfach%20spenden%20mit-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8816166)
+[![PayPal](https://img.shields.io/badge/PayPal-spenden-00457C.svg?style=for-the-badge&logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8816166)
 
 ## Lizenz
 
-[![Licence](https://licensebuttons.net/i/l/by-nc-sa/transparent/00/00/00/88x31-e.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International
+
+[![Licence](https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-EF9421.svg?style=for-the-badge&logo=creativecommons)](https://creativecommons.org/licenses/by-nc-sa/4.0/)

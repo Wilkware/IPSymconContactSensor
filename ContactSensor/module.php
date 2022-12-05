@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// Allgemeine Funktionen
+// Generell funktions
 require_once __DIR__ . '/../libs/_traits.php';
 
 // CLASS ContactSensor
@@ -11,6 +11,9 @@ class ContactSensor extends IPSModule
     use ProfileHelper;
     use DebugHelper;
 
+    /**
+     * Create.
+     */
     public function Create()
     {
         //Never delete this line!
@@ -37,9 +40,17 @@ class ContactSensor extends IPSModule
         $this->RegisterPropertyInteger('TempIndoor', 0);
         $this->RegisterPropertyInteger('TempOutdoor', 0);
         // Dashboard variables
-        $this->RegisterPropertyInteger('ScriptMessage', 0);
+        $this->RegisterPropertyInteger('DashboardMessage', 0);
+        $this->RegisterPropertyInteger('DashboardTrigger', 3);
+        $this->RegisterPropertyInteger('DashboardOpening', 0);
+        $this->RegisterPropertyInteger('DashboardClosing', 0);
+        $this->RegisterPropertyInteger('NotificationMessage', 0);
+        $this->RegisterPropertyInteger('NotificationTrigger', 3);
         $this->RegisterPropertyString('RoomName', $this->Translate('Unknown'));
-        $this->RegisterPropertyInteger('LifeTime', 0);
+        $this->RegisterPropertyString('TextOpening', $this->Translate('%R: Temperature is lowered!'));
+        $this->RegisterPropertyString('TextClosing', $this->Translate('%R: Temperature reduction cancelled!'));
+        $this->RegisterPropertyInteger('InstanceWebfront', 0);
+        $this->RegisterPropertyInteger('ScriptMessage', 0);
         // Delay trigger
         $this->RegisterTimer('DelayTrigger', 0, "IPS_RequestAction(\$_IPS['TARGET'],'Delay', 0);");
         // Repeat trigger
@@ -52,6 +63,17 @@ class ContactSensor extends IPSModule
         $this->RegisterAttributeInteger('Message', 0);
     }
 
+    /**
+     * Destroy.
+     */
+    public function Destroy()
+    {
+        parent::Destroy();
+    }
+
+    /**
+     * Apply Configuration Changes.
+     */
     public function ApplyChanges()
     {
         if ($this->ReadPropertyInteger('StateVariable') != 0) {
@@ -94,82 +116,93 @@ class ContactSensor extends IPSModule
      */
     public function MessageSink($timeStamp, $senderID, $message, $data)
     {
-        // $this->SendDebug('MessageSink', 'SenderId: '. $senderID . ' Data: ' . print_r($data, true), 0);
+        // $this->SendDebug(__FUNCTION__, 'SenderId: '. $senderID . ' Data: ' . print_r($data, true), 0);
         switch ($message) {
             case VM_UPDATE:
                 if ($senderID == $this->ReadPropertyInteger('StateVariable')) {
-                    $this->SendDebug('MessageSink', 'Kontaktsender 1: #' . $senderID . ', New: ' . $data[0] . ', Changed: ' . var_export($data[1], true) . ', Old: ' . $data[2], 0);
-                    // Zustandsänderung ?
-                    if ($data[0] == 1 && $data[1] == true) { // State auf 1, d.h. OPEN
-                        $this->SendDebug('MessageSink', 'Kontaktsender 1: State auf <OPEN> geschalten');
+                    $this->SendDebug(__FUNCTION__, 'Kontaktsender 1: #' . $senderID . ', New: ' . $data[0] . ', Changed: ' . var_export($data[1], true) . ', Old: ' . $data[2], 0);
+                    // state changes ?
+                    if ($data[0] == 1 && $data[1] == true) { // state on 1, i.e. OPEN
+                        $this->SendDebug(__FUNCTION__, 'Kontaktsender 1: State auf <OPEN> geschalten');
                         $this->Open(1);
-                    } elseif ($data[0] == 0 && $data[1] == true) { // State auf 0, d.h. CLOSE
-                        $this->SendDebug('MessageSink', 'Kontaktsender 1: State auf <CLOSE> geschalten');
+                    } elseif ($data[0] == 0 && $data[1] == true) { // state on 0, i.e. CLOSE
+                        $this->SendDebug(__FUNCTION__, 'Kontaktsender 1: State auf <CLOSE> geschalten');
                         $this->Close(1);
-                    } else { // OnChange - keine Zustandsaenderung
-                        $this->SendDebug('MessageSink', 'Kontaktsender 1: State unveraendert - keine Zustandsänderung');
+                    } else { // OnChange - no state changes
+                        $this->SendDebug(__FUNCTION__, 'Kontaktsender 1: State unveraendert - keine Zustandsänderung');
                     }
                 } elseif ($senderID == $this->ReadPropertyInteger('StateVariable2')) {
-                    $this->SendDebug('MessageSink', 'Kontaktsender 2: #' . $senderID . ', New: ' . $data[0] . ', Changed: ' . var_export($data[1], true) . ', Old: ' . $data[2], 0);
-                    // Zustandsänderung ?
-                    if ($data[0] == 1 && $data[1] == true) { // State auf 1, d.h. OPEN
-                        $this->SendDebug('MessageSink', 'Kontaktsender 2: State auf <OPEN> geschalten');
+                    $this->SendDebug(__FUNCTION__, 'Kontaktsender 2: #' . $senderID . ', New: ' . $data[0] . ', Changed: ' . var_export($data[1], true) . ', Old: ' . $data[2], 0);
+                    // state changes ?
+                    if ($data[0] == 1 && $data[1] == true) { // state on 1, i.e. OPEN
+                        $this->SendDebug(__FUNCTION__, 'Kontaktsender 2: State auf <OPEN> geschalten');
                         $this->Open(2);
-                    } elseif ($data[0] == 0 && $data[1] == true) { // State auf 0, d.h. CLOSE
-                        $this->SendDebug('MessageSink', 'Kontaktsender 2: State auf <CLOSE> geschalten');
+                    } elseif ($data[0] == 0 && $data[1] == true) { // state on 0, i.e. CLOSE
+                        $this->SendDebug(__FUNCTION__, 'Kontaktsender 2: State auf <CLOSE> geschalten');
                         $this->Close(2);
-                    } else { // OnChange - keine Zustandsaenderung
-                        $this->SendDebug('MessageSink', 'Kontaktsender 2: State unveraendert - keine Zustandsänderung');
+                    } else { //OnChange - no state changes
+                        $this->SendDebug(__FUNCTION__, 'Kontaktsender 2: State unveraendert - keine Zustandsänderung');
                     }
                 } elseif ($senderID == $this->ReadPropertyInteger('StateVariable3')) {
-                    $this->SendDebug('MessageSink', 'Kontaktsender 3: #' . $senderID . ', New: ' . $data[0] . ', Changed: ' . var_export($data[1], true) . ', Old: ' . $data[2], 0);
-                    // Zustandsänderung ?
-                    if ($data[0] == 1 && $data[1] == true) { // State auf 1, d.h. OPEN
-                        $this->SendDebug('MessageSink', 'Kontaktsender 3: State auf <OPEN> geschalten');
+                    $this->SendDebug(__FUNCTION__, 'Kontaktsender 3: #' . $senderID . ', New: ' . $data[0] . ', Changed: ' . var_export($data[1], true) . ', Old: ' . $data[2], 0);
+                    // state changes ?
+                    if ($data[0] == 1 && $data[1] == true) { // state on 1, i.e. OPEN
+                        $this->SendDebug(__FUNCTION__, 'Kontaktsender 3: State auf <OPEN> geschalten');
                         $this->Open(4);
-                    } elseif ($data[0] == 0 && $data[1] == true) { // State auf 0, d.h. CLOSE
-                        $this->SendDebug('MessageSink', 'Kontaktsender 3: State auf <CLOSE> geschalten');
+                    } elseif ($data[0] == 0 && $data[1] == true) { // state on 0, i.e. CLOSE
+                        $this->SendDebug(__FUNCTION__, 'Kontaktsender 3: State auf <CLOSE> geschalten');
                         $this->Close(4);
-                    } else { // OnChange - keine Zustandsaenderung
-                        $this->SendDebug('MessageSink', 'Kontaktsender 3: State unveraendert - keine Zustandsänderung');
+                    } else { // OnChange - no state changes
+                        $this->SendDebug(__FUNCTION__, 'Kontaktsender 3: State unveraendert - keine Zustandsänderung');
                     }
                 } elseif ($senderID == $this->ReadPropertyInteger('StateVariable4')) {
-                    $this->SendDebug('MessageSink', 'Kontaktsender 4: #' . $senderID . ', New: ' . $data[0] . ', Changed: ' . var_export($data[1], true) . ', Old: ' . $data[2], 0);
-                    // Zustandsänderung ?
-                    if ($data[0] == 1 && $data[1] == true) { // State auf 1, d.h. OPEN
-                        $this->SendDebug('MessageSink', 'Kontaktsender 4: State auf <OPEN> geschalten');
+                    $this->SendDebug(__FUNCTION__, 'Kontaktsender 4: #' . $senderID . ', New: ' . $data[0] . ', Changed: ' . var_export($data[1], true) . ', Old: ' . $data[2], 0);
+                    // state changes ?
+                    if ($data[0] == 1 && $data[1] == true) { // state on 1, i.e. OPEN
+                        $this->SendDebug(__FUNCTION__, 'Kontaktsender 4: State auf <OPEN> geschalten');
                         $this->Open(8);
-                    } elseif ($data[0] == 0 && $data[1] == true) { // State auf 0, d.h. CLOSE
-                        $this->SendDebug('MessageSink', 'Kontaktsender 4: State auf <CLOSE> geschalten');
+                    } elseif ($data[0] == 0 && $data[1] == true) { // state on 0, i.e. CLOSE
+                        $this->SendDebug(__FUNCTION__, 'Kontaktsender 4: State auf <CLOSE> geschalten');
                         $this->Close(8);
-                    } else { // OnChange - keine Zustandsaenderung
-                        $this->SendDebug('MessageSink', 'Kontaktsender 4: State unveraendert - keine Zustandsänderung');
+                    } else { // OnChange - no state changes
+                        $this->SendDebug(__FUNCTION__, 'Kontaktsender 4: State unveraendert - keine Zustandsänderung');
                     }
                 } else {
-                    $this->SendDebug('MessageSink', 'Kontaktsender: #' . $senderID . ' unbekannt!');
+                    $this->SendDebug(__FUNCTION__, 'Kontaktsender: #' . $senderID . ' unbekannt!');
                 }
-            break;
-          }
+                break;
+        }
     }
 
+    /**
+     * RequestAction.
+     *
+     *  @param string $ident Ident.
+     *  @param string $value Value.
+     */
     public function RequestAction($ident, $value)
     {
         // Debug output
-        $this->SendDebug('RequestAction', $ident . ' Timer wurde ausgelöst!');
+        $this->SendDebug(__FUNCTION__, $ident . ' Timer wurde ausgelöst!');
         switch ($ident) {
             case 'Delay':
                 $this->Decrease();
-            break;
+                break;
             case 'Repeat':
                 $this->Decrease();
-            break;
+                break;
             case 'Switch':
                 $this->Restore();
-            break;
+                break;
         }
         return true;
     }
 
+    /**
+     * Open - Executes if state is OPEN.
+     *
+     * @* @param Integer $sensor Id of the triggered sensor
+     */
     private function Open($sensor)
     {
         // (1) push sensor to process
@@ -179,11 +212,11 @@ class ContactSensor extends IPSModule
         // (2) check timer or active reduction
         $delay = $this->ReadPropertyInteger('Delay');
         if ((($delay > 0) && ($this->GetTimerInterval('DelayTrigger') != 0)) || $this->ReadAttributeBoolean('Reduction')) {
-            $this->SendDebug('Open', 'Kontaktsender ' . $sensor . ' wollte auslösen, aber ein anderer Sensor war schneller!');
+            $this->SendDebug(__FUNCTION__, 'Kontaktsender ' . $sensor . ' wollte auslösen, aber ein anderer Sensor war schneller!');
             return;
         }
         // (3) start action
-        $this->SendDebug('Open', 'Kontaktsender ' . $sensor . ' hat Prozess ausgelöst!');
+        $this->SendDebug(__FUNCTION__, 'Kontaktsender ' . $sensor . ' hat Prozess ausgelöst!');
         if ($delay > 0) {
             $this->SetTimerInterval('DelayTrigger', 1000 * $delay);
         } else {
@@ -191,6 +224,11 @@ class ContactSensor extends IPSModule
         }
     }
 
+    /**
+     * Close - Executes if state is CLOSE.
+     *
+     * @param int $sensor Id of the triggered sensor
+     */
     private function Close($sensor)
     {
         // (1) pop sensor from process
@@ -199,17 +237,20 @@ class ContactSensor extends IPSModule
         $this->WriteAttributeInteger('Sensors', $sensors);
         // (2) check if some sensor still in process
         if ($sensors > 0) {
-            $this->SendDebug('Close', 'Kontaktsender ' . $sensor . ' wollte aufheben, aber ein anderer Sensor ist noch offen!');
+            $this->SendDebug(__FUNCTION__, 'Kontaktsender ' . $sensor . ' wollte aufheben, aber ein anderer Sensor ist noch offen!');
             return;
         }
         // (3) end action
-        $this->SendDebug('Close', 'Kontaktsender ' . $sensor . ' hat Prozess beendet!');
+        $this->SendDebug(__FUNCTION__, 'Kontaktsender ' . $sensor . ' hat Prozess beendet!');
         $this->Restore();
     }
 
+    /**
+     * Decrease - decrease th heater temperature.
+     */
     private function Decrease()
     {
-        $this->SendDebug('Decrease', 'Funktion wurde aufgerufen!');
+        $this->SendDebug(__FUNCTION__, 'Funktion wurde aufgerufen!');
         // deactivate timer
         $this->SetTimerInterval('DelayTrigger', 0);
         $this->SetTimerInterval('RepeatTrigger', 0);
@@ -221,11 +262,11 @@ class ContactSensor extends IPSModule
             $lid = $this->ReadPropertyInteger('Level');
             if ($lid != 0) {
                 if (GetValue($lid) <= 0) {
-                    $this->SendDebug('Decrease', 'Ventilpostionscheck ist aktiv und traf zu!');
+                    $this->SendDebug(__FUNCTION__, 'Ventilpostionscheck ist aktiv und traf zu!');
                     $condition = false;
                 }
             } else {
-                $this->SendDebug('Decrease', 'Ventilpostionscheck ist aktiv aber keine Positionsvariable hinterlegt!');
+                $this->SendDebug(__FUNCTION__, 'Ventilpostionscheck ist aktiv aber keine Positionsvariable hinterlegt!');
             }
         }
         // (2) check temperature diff
@@ -269,31 +310,34 @@ class ContactSensor extends IPSModule
         }
     }
 
+    /**
+     * Restore - set heater back to his programm temperature.
+     */
     private function Restore()
     {
-        $this->SendDebug('Restore', 'Funktion wurde aufgerufen!');
+        $this->SendDebug(__FUNCTION__, 'Funktion wurde aufgerufen!');
         // Active delay timer?
         if ($this->GetTimerInterval('DelayTrigger') > 0) {
             // Timer deactivate
             $this->SetTimerInterval('DelayTrigger', 0);
-            $this->SendDebug('Restore', 'Ein Verzögerungs-Timer hatte noch nicht ausgelöst!!!');
+            $this->SendDebug(__FUNCTION__, 'Ein Verzögerungs-Timer hatte noch nicht ausgelöst!!!');
         }
         // Active repeat timer?
         if ($this->GetTimerInterval('RepeatTrigger') > 0) {
             // Timer deactivate
             $this->SetTimerInterval('RepeatTrigger', 0);
-            $this->SendDebug('Restore', 'Ein Wiederholungs-Timer war noch aktiv!!!');
+            $this->SendDebug(__FUNCTION__, 'Ein Wiederholungs-Timer war noch aktiv!!!');
         }
         // Active switch back timer?
         if ($this->GetTimerInterval('SwitchTrigger') > 0) {
             // Timer deactivate
             $this->SetTimerInterval('SwitchTrigger', 0);
-            $this->SendDebug('Restore', 'Ein Aufhebungs-Timer war noch aktiv und hatte noch nicht ausgelöst!!!');
+            $this->SendDebug(__FUNCTION__, 'Ein Aufhebungs-Timer war noch aktiv und hatte noch nicht ausgelöst!!!');
         }
 
-        // war abgesenkt?
+        // was reducted?
         if (!$this->ReadAttributeBoolean('Reduction')) {
-            $this->SendDebug('Restore', 'Kein Aktion  notwendig, da nicht ausgelöst!');
+            $this->SendDebug(__FUNCTION__, 'Kein Aktion  notwendig, da nicht ausgelöst!');
             return;
         }
         // HM 'WINDOW_STATE' set to <CLOSE>
@@ -320,44 +364,82 @@ class ContactSensor extends IPSModule
         $this->SendMessage(false);
     }
 
+    /**
+     * SendMessage - if setuped. its send a message to indicate the state changes
+     *
+     * @param bool contact state (true is open | false is close).
+     */
     private function SendMessage($state)
     {
+        $isDashboard = $this->ReadPropertyInteger('DashboardMessage');
+        $isNotify = $this->ReadPropertyInteger('NotificationMessage');
+        // Check output
+        if (!$isDashboard && !$isNotify) {
+            // nothing to do
+            return;
+        }
+        // trigger & duration
+        $triggerDashboard = $this->ReadPropertyInteger('DashboardTrigger');
+        $openingDashboard = $this->ReadPropertyInteger('DashboardOpening');
+        $closingDashboard = $this->ReadPropertyInteger('DashboardClosing');
+        $triggerNotify = $this->ReadPropertyInteger('NotificationTrigger');
+        // text formates
+        $open = $this->ReadPropertyString('TextOpening');
+        $close = $this->ReadPropertyString('TextClosing');
+        // webfront id & message script
+        $webfront = $this->ReadPropertyInteger('InstanceWebfront');
+        $msgscript = $this->ReadPropertyInteger('ScriptMessage');
+        // specifier
+        $value = [];
+        $value['ROOM'] = $this->ReadPropertyString('RoomName');
+        $value['TYPE'] = ($state ? $this->Translate('OPEN') : $this->Translate('CLOSE'));
+        $value['DATE'] = (date('d.m.Y', time()));
+        $value['TIME'] = (date('H:i:s', time()));
+        // build message
         $img = 'Window';
         $txt = '';
         $msg = 0;
         $typ = 4;
+        $time = 0;
+        $sdb = false;
+        $swf = false;
         // set the right parameter
         if ($state) {
             $img .= '-0';
-            $txt = $this->Translate('Temperature is lowered!');
+            $txt = $this->FormatMessage($value, $open);
             $typ = 2;
+            $sdb = ($triggerDashboard & 1);
+            $swf = ($triggerNotify & 1);
+            $time = $openingDashboard * 60;
         } else {
             $img .= '-100';
-            $txt = $this->Translate('Temperature reduction cancelled!');
+            $txt = $this->FormatMessage($value, $close);
             $typ = 0;
+            $sdb = ($triggerDashboard & 2);
+            $swf = ($triggerNotify & 2);
+            $time = $closingDashboard * 60;
+        }
+        // debug
+        $this->SendDebug(__FUNCTION__, 'Image:' . $img . ', Text: ' . $txt . ', SDB:' . $sdb . ', SWF:' . $swf . ', Time:' . $time);
+        // send notify?
+        if ($isNotify && $webfront != 0 && $swf) {
+            WFC_PushNotification($webfront, $this->Translate('Contact Sensor'), $txt, $img, 0);
         }
         // send message?
-        $scriptId = $this->ReadPropertyInteger('ScriptMessage');
-        if ($scriptId != 0) {
-            $room = $this->ReadPropertyString('RoomName');
-            $time = $this->ReadPropertyInteger('LifeTime');
-            $time = $time * 60;
+        if ($isDashboard && $msgscript != 0 && $sdb) {
             // remove old message?
             if (!$state) {
                 $msg = $this->ReadAttributeInteger('Message');
                 if ($msg > 0) {
-                    IPS_RunScriptWaitEx($scriptId, ['action' => 'remove', 'number' => $msg]);
+                    IPS_RunScriptWaitEx($msgscript, ['action' => 'remove', 'number' => $msg]);
                 }
-            } else {
-                // Time only for the remove state
-                $time = 0;
             }
             // send new message
-            if (IPS_ScriptExists($scriptId)) {
+            if (IPS_ScriptExists($msgscript)) {
                 if ($time > 0) {
-                    $msg = IPS_RunScriptWaitEx($scriptId, ['action' => 'add', 'text' => $room . ': ' . $txt, 'expires' => time() + $time, 'removable' => true, 'type' => $typ, 'image' => $img]);
+                    $msg = IPS_RunScriptWaitEx($msgscript, ['action' => 'add', 'text' => $txt, 'expires' => time() + $time, 'removable' => true, 'type' => $typ, 'image' => $img]);
                 } else {
-                    $msg = IPS_RunScriptWaitEx($scriptId, ['action' => 'add', 'text' => $room . ': ' . $txt, 'removable' => true, 'type' => $typ, 'image' => $img]);
+                    $msg = IPS_RunScriptWaitEx($msgscript, ['action' => 'add', 'text' => $txt, 'removable' => true, 'type' => $typ, 'image' => $img]);
                 }
             }
             // bookmark message
@@ -365,12 +447,30 @@ class ContactSensor extends IPSModule
         }
     }
 
+    /**
+     * Format a given array to a string.
+     *
+     * @param array $value Weather warning data
+     * @param string $format Format string
+     */
+    private function FormatMessage(array $value, $format)
+    {
+        $output = str_replace('%R', $value['ROOM'], $format);
+        $output = str_replace('%M', $value['TYPE'], $output);
+        $output = str_replace('%D', $value['DATE'], $output);
+        $output = str_replace('%T', $value['TIME'], $output);
+        return $output;
+    }
+
+    /**
+     * Internal state
+     */
     private function InternalState()
     {
         $reduction = false;
         $sensors = 0;
 
-        // Heizkörper Status
+        // heater state
         $vid = $this->ReadPropertyInteger('Radiator1');
         if ($vid != 0) {
             $oid = @IPS_GetObjectIDByIdent('WINDOW_STATE', $vid);
@@ -385,7 +485,7 @@ class ContactSensor extends IPSModule
                 $reduction |= GetValue($oid);
             }
         }
-        // Kontakt Status
+        // contact state
         $vid = $this->ReadPropertyInteger('StateVariable');
         if ($vid != 0) {
             $sensors = $sensors + (GetValue($vid) ? 1 : 0);
@@ -401,6 +501,6 @@ class ContactSensor extends IPSModule
         // set sensor state and open/close state
         $this->WriteAttributeInteger('Sensors', $sensors);
         $this->WriteAttributeBoolean('Reduction', $reduction);
-        $this->SendDebug('SetInternalState', 'Sensors: ' . $sensors . ' Reduction: ' . var_export($reduction, true), 0);
+        $this->SendDebug(__FUNCTION__, 'Sensors: ' . $sensors . ' Reduction: ' . var_export($reduction, true), 0);
     }
 }
