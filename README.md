@@ -1,4 +1,4 @@
-# Toolmatic Contact Sensor (Fenster- und Türkontakt)
+# Fenster- und Türkontakt (Contact Sensor)
 
 [![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 [![Product](https://img.shields.io/badge/Symcon%20Version-6.0%20%3E-blue.svg)](https://www.symcon.de/produkt/)
