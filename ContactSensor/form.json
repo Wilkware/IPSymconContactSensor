@@ -420,10 +420,22 @@
                     "caption": "... to send notification messages to a web front:"
                 },
                 {
-                    "type": "SelectInstance",
-                    "name": "InstanceWebfront",
-                    "caption": "WebFront Instance:",
-                    "width": "450px"
+                    "type": "RowLayout",
+                    "items": [
+                        {
+                            "type": "SelectInstance",
+                            "name": "InstanceWebfront",
+                            "caption": "WebFront Instance:",
+                            "width": "450px"
+                        },
+                        {
+                            "type": "ValidationTextBox",
+                            "name": "TitleMessage",
+                            "caption": "Title of the message (max. 32 characters):",
+                            "validate": "^[0-9a-zA-ZäöüÄÖÜß -_&]{0,32}$",
+                            "width": "450px"
+                        }
+                    ]
                 },
                 {
                     "type": "Label",

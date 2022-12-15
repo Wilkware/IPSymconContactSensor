@@ -49,6 +49,7 @@ class ContactSensor extends IPSModule
         $this->RegisterPropertyString('RoomName', $this->Translate('Unknown'));
         $this->RegisterPropertyString('TextOpening', $this->Translate('%R: Temperature is lowered!'));
         $this->RegisterPropertyString('TextClosing', $this->Translate('%R: Temperature reduction cancelled!'));
+        $this->RegisterPropertyString('TitleMessage', $this->Translate('Contact Sensor'));
         $this->RegisterPropertyInteger('InstanceWebfront', 0);
         $this->RegisterPropertyInteger('ScriptMessage', 0);
         // Delay trigger
@@ -388,6 +389,7 @@ class ContactSensor extends IPSModule
         $close = $this->ReadPropertyString('TextClosing');
         // webfront id & message script
         $webfront = $this->ReadPropertyInteger('InstanceWebfront');
+        $msgtitle =  $this->ReadPropertyString('TitleMessage');
         $msgscript = $this->ReadPropertyInteger('ScriptMessage');
         // specifier
         $value = [];
@@ -423,7 +425,7 @@ class ContactSensor extends IPSModule
         $this->SendDebug(__FUNCTION__, 'Image:' . $img . ', Text: ' . $txt . ', SDB:' . $sdb . ', SWF:' . $swf . ', Time:' . $time);
         // send notify?
         if ($isNotify && $webfront != 0 && $swf) {
-            WFC_PushNotification($webfront, $this->Translate('Contact Sensor'), $txt, $img, 0);
+            WFC_PushNotification($webfront, $msgtitle, $txt, $img, 0);
         }
         // send message?
         if ($isDashboard && $msgscript != 0 && $sdb) {

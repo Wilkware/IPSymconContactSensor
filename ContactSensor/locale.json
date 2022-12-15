@@ -43,6 +43,7 @@
             "CLOSE": "GESCHLOSSEN",
             "Text message format (opening):": "Format der Textmitteilung (Öffnen):",
             "Text message format (closing):": "Format der Textmitteilung (Schließen):",
+            "Title of the message (max. 32 characters):": "Titel der Nachricht (max. 32 Zeichen):" ,
             "Always": "Immer",
             "Unknown": "Unbekannt",
             "Specifier:\n%R = Room name, %M = Message Trigger, %D = Date, %T = Time": "Bezeichner:\n%R = Raumname, %M = Nachrichtenauslöser, %D = Datum, %T = Uhrzeit",
