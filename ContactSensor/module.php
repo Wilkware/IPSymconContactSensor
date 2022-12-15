@@ -389,7 +389,7 @@ class ContactSensor extends IPSModule
         $close = $this->ReadPropertyString('TextClosing');
         // webfront id & message script
         $webfront = $this->ReadPropertyInteger('InstanceWebfront');
-        $msgtitle =  $this->ReadPropertyString('TitleMessage');
+        $msgtitle = $this->ReadPropertyString('TitleMessage');
         $msgscript = $this->ReadPropertyInteger('ScriptMessage');
         // specifier
         $value = [];
