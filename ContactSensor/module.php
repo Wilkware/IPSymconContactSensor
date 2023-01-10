@@ -36,6 +36,7 @@ class ContactSensor extends IPSModule
         // Radiator variables
         $this->RegisterPropertyInteger('Radiator1', 0);
         $this->RegisterPropertyInteger('Radiator2', 0);
+        $this->RegisterPropertyInteger('ExecScript', 0);
         // Clima variables
         $this->RegisterPropertyInteger('TempIndoor', 0);
         $this->RegisterPropertyInteger('TempOutdoor', 0);
@@ -77,21 +78,72 @@ class ContactSensor extends IPSModule
      */
     public function ApplyChanges()
     {
-        if ($this->ReadPropertyInteger('StateVariable') != 0) {
-            $this->UnregisterMessage($this->ReadPropertyInteger('StateVariable'), VM_UPDATE);
-        }
-        if ($this->ReadPropertyInteger('StateVariable2') != 0) {
-            $this->UnregisterMessage($this->ReadPropertyInteger('StateVariable2'), VM_UPDATE);
-        }
-        if ($this->ReadPropertyInteger('StateVariable3') != 0) {
-            $this->UnregisterMessage($this->ReadPropertyInteger('StateVariable3'), VM_UPDATE);
-        }
-        if ($this->ReadPropertyInteger('StateVariable4') != 0) {
-            $this->UnregisterMessage($this->ReadPropertyInteger('StateVariable4'), VM_UPDATE);
-        }
         //Never delete this line!
         parent::ApplyChanges();
-        //Create our trigger
+
+        //Delete all references in order to readd them
+        foreach ($this->GetReferenceList() as $referenceID) {
+            $this->UnregisterReference($referenceID);
+        }
+
+        //Delete all registrations in order to readd them
+        foreach ($this->GetMessageList() as $senderID => $messages) {
+            foreach ($messages as $message) {
+                $this->UnregisterMessage($senderID, $message);
+            }
+        }
+
+        //Register references
+        $variable = $this->ReadPropertyInteger('StateVariable');
+        if (IPS_VariableExists($variable)) {
+            $this->RegisterReference($variable);
+        }
+        $variable = $this->ReadPropertyInteger('StateVariable2');
+        if (IPS_VariableExists($variable)) {
+            $this->RegisterReference($variable);
+        }
+        $variable = $this->ReadPropertyInteger('StateVariable3');
+        if (IPS_VariableExists($variable)) {
+            $this->RegisterReference($variable);
+        }
+        $variable = $this->ReadPropertyInteger('StateVariable4');
+        if (IPS_VariableExists($variable)) {
+            $this->RegisterReference($variable);
+        }
+        $variable = $this->ReadPropertyInteger('Level');
+        if (IPS_VariableExists($variable)) {
+            $this->RegisterReference($variable);
+        }
+        $variable = $this->ReadPropertyInteger('Radiator1');
+        if (IPS_VariableExists($variable)) {
+            $this->RegisterReference($variable);
+        }
+        $variable = $this->ReadPropertyInteger('Radiator2');
+        if (IPS_VariableExists($variable)) {
+            $this->RegisterReference($variable);
+        }
+        $variable = $this->ReadPropertyInteger('TempIndoor');
+        if (IPS_VariableExists($variable)) {
+            $this->RegisterReference($variable);
+        }
+        $variable = $this->ReadPropertyInteger('TempOutdoor');
+        if (IPS_VariableExists($variable)) {
+            $this->RegisterReference($variable);
+        }
+        $script = $this->ReadPropertyInteger('ExecScript');
+        if (IPS_ScriptExists($script)) {
+            $this->RegisterReference($script);
+        }
+        $script = $this->ReadPropertyInteger('ScriptMessage');
+        if (IPS_ScriptExists($script)) {
+            $this->RegisterReference($script);
+        }
+        $instance = $this->ReadPropertyInteger('InstanceWebfront');
+        if (IPS_InstanceExists($instance)) {
+            $this->RegisterReference($instance);
+        }
+
+        //Register update messages = Create our trigger
         if (IPS_VariableExists($this->ReadPropertyInteger('StateVariable'))) {
             $this->RegisterMessage($this->ReadPropertyInteger('StateVariable'), VM_UPDATE);
         }
@@ -296,6 +348,16 @@ class ContactSensor extends IPSModule
                 $ret = HM_WriteValueInteger($radiator, 'WINDOW_STATE', 1);
                 $this->SendDebug('Decrease', 'Heizkörper 2: #' . $radiator . ' Fensterstatus auf OPEN setzen => ' . var_export($ret, true));
             }
+            // Execute script
+            $script = $this->ReadPropertyInteger('ExecScript');
+            if ($script != 0) {
+                if (IPS_ScriptExists($script)) {
+                    $rs = IPS_RunScriptEx($script, ['WINDOW_STATE' => 1]);
+                    $this->SendDebug(__FUNCTION__, 'Script Execute Return Value: ' . $rs);
+                } else {
+                    $this->SendDebug(__FUNCTION__, 'Script #' . $script . ' does not exist!');
+                }
+            }
             // Internal State
             $this->WriteAttributeBoolean('Reduction', true);
             // Switch back timer
@@ -358,6 +420,16 @@ class ContactSensor extends IPSModule
                 $this->LogMessage('Error writing WINDOW_STATE #2', KL_ERROR);
             }
             $this->SendDebug(__FUNCTION__, 'Heizkörper 2: #' . $radiator . ' Fensterstatus auf CLOSE setzen => ' . var_export($ret, true));
+        }
+        // Execute script
+        $script = $this->ReadPropertyInteger('ExecScript');
+        if ($script != 0) {
+            if (IPS_ScriptExists($script)) {
+                $rs = IPS_RunScriptEx($script, ['WINDOW_STATE' => 0]);
+                $this->SendDebug(__FUNCTION__, 'Script Execute Return Value: ' . $rs);
+            } else {
+                $this->SendDebug(__FUNCTION__, 'Script #' . $script . ' does not exist!');
+            }
         }
         // Internal State
         $this->WriteAttributeBoolean('Reduction', false);

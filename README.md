@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 [![Product](https://img.shields.io/badge/Symcon%20Version-6.0%20%3E-blue.svg)](https://www.symcon.de/produkt/)
-[![Version](https://img.shields.io/badge/Modul%20Version-2.0.20221204-orange.svg)](https://github.com/Wilkware/IPSymconContactSensor)
+[![Version](https://img.shields.io/badge/Modul%20Version-2.1.20230110-orange.svg)](https://github.com/Wilkware/IPSymconContactSensor)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Actions](https://github.com/Wilkware/IPSymconContactSensor/workflows/Check%20Style/badge.svg)](https://github.com/Wilkware/IPSymconContactSensor/actions)
 
@@ -80,6 +80,7 @@ Name                            | Beschreibung
 ------------------------------- | -----------------------------------------------------------------
 1.Heizkörper                    | Steuerungskanal des ersten Heizungsthermostats oder -stellantriebs
 2.Heizkörper                    | Steuerungskanal des zweiten Heizungsthermostats oder -stellantriebs
+Skript                          | Auswahl eines Skriptes, welches nur oder zusätzlich ausgeführt werden soll (IPS_RunScriptEX). Status 1(open) bzw. 0(close) wird im Array als 'WINDOW_STATE' übergeben).
 
 > Klimawerte ...
 
@@ -119,6 +120,12 @@ _Hinweis:_ Das Script 'Meldungsanzeige im Webfront' (Meldungsverwaltung) wird un
 Das Modul stellt keine direkten Funktionsaufrufe zur Verfügung.
 
 ### 8. Versionshistorie
+
+v2.1.20230110
+
+* _NEU_: Referenzieren der Gerätevariablen hinzugefügt (sicheres Löschen)
+* _NEU_: Erweiterung zum Ausführen eines Skriptes
+* _FIX_: 4. Kontaktsensor wurde nicht berücksichtigt
 
 v2.0.20221204
 
