@@ -352,7 +352,7 @@ class ContactSensor extends IPSModule
             $script = $this->ReadPropertyInteger('ExecScript');
             if ($script != 0) {
                 if (IPS_ScriptExists($script)) {
-                    $rs = IPS_RunScriptEx($script, ['WINDOW_STATE' => 1]);
+                    $rs = IPS_RunScriptEx($script, ['MODUL' => $this->InstanceID, 'WINDOW_STATE' => 1]);
                     $this->SendDebug(__FUNCTION__, 'Script Execute Return Value: ' . $rs);
                 } else {
                     $this->SendDebug(__FUNCTION__, 'Script #' . $script . ' does not exist!');
@@ -425,7 +425,7 @@ class ContactSensor extends IPSModule
         $script = $this->ReadPropertyInteger('ExecScript');
         if ($script != 0) {
             if (IPS_ScriptExists($script)) {
-                $rs = IPS_RunScriptEx($script, ['WINDOW_STATE' => 0]);
+                $rs = IPS_RunScriptEx($script, ['MODUL' => $this->InstanceID, 'WINDOW_STATE' => 0]);
                 $this->SendDebug(__FUNCTION__, 'Script Execute Return Value: ' . $rs);
             } else {
                 $this->SendDebug(__FUNCTION__, 'Script #' . $script . ' does not exist!');

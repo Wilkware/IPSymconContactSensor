@@ -80,7 +80,7 @@ Name                            | Beschreibung
 ------------------------------- | -----------------------------------------------------------------
 1.Heizkörper                    | Steuerungskanal des ersten Heizungsthermostats oder -stellantriebs
 2.Heizkörper                    | Steuerungskanal des zweiten Heizungsthermostats oder -stellantriebs
-Skript                          | Auswahl eines Skriptes, welches nur oder zusätzlich ausgeführt werden soll (IPS_RunScriptEX). Status 1(open) bzw. 0(close) wird im Array als 'WINDOW_STATE' übergeben).
+Skript                          | Auswahl eines Skriptes, welches nur oder zusätzlich ausgeführt werden soll (IPS_RunScriptEX). Status 1(open) bzw. 0(close) wird im Array als 'WINDOW_STATE' übergeben. Die ID des ausführenden Moduls wird in 'MODUL' mitgegeben.).
 
 > Klimawerte ...
 
