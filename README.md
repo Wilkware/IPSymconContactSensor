@@ -1,10 +1,10 @@
 # Fenster- und Türkontakt (Contact Sensor)
 
-[![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Product](https://img.shields.io/badge/Symcon%20Version-6.0%20%3E-blue.svg)](https://www.symcon.de/produkt/)
-[![Version](https://img.shields.io/badge/Modul%20Version-2.1.20230110-orange.svg)](https://github.com/Wilkware/IPSymconContactSensor)
-[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-[![Actions](https://github.com/Wilkware/IPSymconContactSensor/workflows/Check%20Style/badge.svg)](https://github.com/Wilkware/IPSymconContactSensor/actions)
+[![Version](https://img.shields.io/badge/Symcon-PHP--Modul-red.svg?style=flat-square)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
+[![Product](https://img.shields.io/badge/Symcon%20Version-6.4-blue.svg?style=flat-square)](https://www.symcon.de/produkt/)
+[![Version](https://img.shields.io/badge/Modul%20Version-3.0.20240908-orange.svg?style=flat-square)](https://github.com/Wilkware/ContactSensor)
+[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg?style=flat-square)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Actions](https://img.shields.io/github/actions/workflow/status/wilkware/ContactSensor/style.yml?branch=main&label=CheckStyle&style=flat-square)](https://github.com/Wilkware/ContactSensor/actions)
 
 Das Modul reagiert entsprechend hinterlegter Verzögerungszeit und Bedingungen auf das Öffnen bzw. Schließen von Fenster- bzw. Türkontakten und führt eine Temperaturabsenkung durch.  
   
@@ -17,7 +17,7 @@ Wer die Meldungsverwaltung (Thema: [Meldungsanzeige im Webfront](https://www.sym
 3. [Installation](#user-content-3-installation)
 4. [Einrichten der Instanzen in IP-Symcon](#user-content-4-einrichten-der-instanzen-in-ip-symcon)
 5. [Statusvariablen und Profile](#user-content-5-statusvariablen-und-profile)
-6. [WebFront](#user-content-6-webfront)
+6. [Visualisierung](#user-content-6-visualisierung)
 7. [PHP-Befehlsreferenz](#user-content-7-php-befehlsreferenz)
 8. [Versionshistorie](#user-content-8-versionshistorie)
 
@@ -34,18 +34,18 @@ Wer die Meldungsverwaltung (Thema: [Meldungsanzeige im Webfront](https://www.sym
 
 ### 2. Voraussetzungen
 
-* IP-Symcon ab Version 6.0
+* IP-Symcon ab Version 6.4
 * Heizkörpersteuerung getestet mit HmIP-WTH2 und/oder HmIP-eTRV(-2)
 
 ### 3. Installation
 
 * Über den Modul Store das Modul _Contact Sensor_ installieren.
 * Alternativ Über das Modul-Control folgende URL hinzufügen.  
-`https://github.com/Wilkware/IPSymconContactSensor` oder `git://github.com/Wilkware/IPSymconContactSensor.git`
+`https://github.com/Wilkware/ContactSensor` oder `git://github.com/Wilkware/ContactSensor.git`
 
 ### 4. Einrichten der Instanzen in IP-Symcon
 
-* Unter 'Instanz hinzufügen' ist das _Contact Sensor_-Modul (Alias: _Türkontakt_ oder _Fensterkontakt_) unter dem Hersteller '(Geräte)' aufgeführt.
+* Unter 'Instanz hinzufügen' ist das _Contact Sensor_-Modul (Alias: _Fenster- und Türkontakt_, _Türkontakt_ oder _Fensterkontakt_) unter dem Hersteller '(Geräte)' aufgeführt.
 
 __Konfigurationsseite__:
 
@@ -97,19 +97,19 @@ Meldung an Anzeige senden            | Auswahl ob Eintrag in die Meldungsverwalt
 Auslöser der Nachricht               | Auswahl bei welcher Aktion eine Nachricht erfolgen soll
 Lebensdauer der Nachricht (Öffnen)   | Wie lange soll die öffnende Meldung angezeigt werden?
 Lebensdauer der Nachricht (Schließen)| Wie lange soll die schließende Meldung angezeigt werden?
-Nachricht ans Webfront senden        | Auswahl ob Push-Nachricht gesendet werden soll oder nicht (Ja/Nein)
+Nachricht an Visualisierung senden   | Auswahl ob Push-Nachricht gesendet werden soll oder nicht (Ja/Nein)
 Auslöser der Nachricht               | Auswahl bei welcher Aktion eine Nachricht erfolgen soll
 Raumname                             | Text zur eindeutigen Zuordnung des Raums
 Format der Textmitteilung (Öffnen)   | Frei wählbares Format der öffnenden Nachricht/Meldung
 Format der Textmitteilung (Schließen)| Frei wählbares Format der schließenden Nachricht/Meldung
-WebFront Instanz                     | ID des Webfronts, an welches die Push-Nachrichten gesendet werden soll
+Visualisierungs-Instanz              | ID der Visualisierung, an welches die Push-Nachrichten gesendet werden soll (WebFront oder TileVisu Instanz)
 Meldsungsskript                      | Skript ID des Meldungsverwaltungsskripts
 
 ### 5. Statusvariablen und Profile
 
 Es werden keine zusätzlichen Statusvariablen/Profile benötigt.
 
-### 6. WebFront
+### 6. Visualisierung
 
 Es ist keine weitere Steuerung oder gesonderte Darstellung integriert.
 
@@ -120,6 +120,16 @@ _Hinweis:_ Das Script 'Meldungsanzeige im Webfront' (Meldungsverwaltung) wird un
 Das Modul stellt keine direkten Funktionsaufrufe zur Verfügung.
 
 ### 8. Versionshistorie
+
+v3.0.20240908
+
+* _NEU_: Kompatibilität auf IPS 6.4 hoch gesetzt
+* _FIX_: Unterscheidung der verschiedenen Visualisierungsinstanzen (PushNotification)
+* _FIX_: Bibliotheks- bzw. Modulinfos vereinheitlicht
+* _FIX_: Namensnennung und Repo vereinheitlicht
+* _FIX_: Update Style-Checks
+* _FIX_: Übersetzungen überarbeitet und verbessert
+* _FIX_: Dokumentation vereinheitlicht 
 
 v2.1.20230110
 
@@ -162,7 +172,7 @@ Seit nunmehr über 10 Jahren fasziniert mich das Thema Haussteuerung. In den let
 
 ## Spenden
 
-Die Software ist für die nicht kommzerielle Nutzung kostenlos, über eine Spende bei Gefallen des Moduls würde ich mich freuen.
+Die Software ist für die nicht kommerzielle Nutzung kostenlos, über eine Spende bei Gefallen des Moduls würde ich mich freuen.
 
 [![PayPal](https://img.shields.io/badge/PayPal-spenden-00457C.svg?style=for-the-badge&logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8816166)
 

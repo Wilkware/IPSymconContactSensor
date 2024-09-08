@@ -5,11 +5,13 @@ declare(strict_types=1);
 // Generell funktions
 require_once __DIR__ . '/../libs/_traits.php';
 
-// CLASS ContactSensor
+/**
+ * CLASS ContactSensor
+ */
 class ContactSensor extends IPSModule
 {
-    use ProfileHelper;
     use DebugHelper;
+    use VersionHelper;
 
     /**
      * Create.
@@ -161,11 +163,12 @@ class ContactSensor extends IPSModule
     }
 
     /**
-     * Internal SDK funktion.
-     * data[0] = new value
-     * data[1] = value changed?
-     * data[2] = old value
-     * data[3] = timestamp.
+     * MessageSink - internal SDK funktion.
+     *
+     * @param mixed $timeStamp Message timeStamp
+     * @param mixed $senderID Sender ID
+     * @param mixed $message Message type
+     * @param mixed $data data[0] = new value, data[1] = value changed, data[2] = old value, data[3] = timestamp
      */
     public function MessageSink($timeStamp, $senderID, $message, $data)
     {
@@ -497,7 +500,12 @@ class ContactSensor extends IPSModule
         $this->SendDebug(__FUNCTION__, 'Image:' . $img . ', Text: ' . $txt . ', SDB:' . $sdb . ', SWF:' . $swf . ', Time:' . $time);
         // send notify?
         if ($isNotify && $webfront != 0 && $swf) {
-            WFC_PushNotification($webfront, $msgtitle, $txt, $img, 0);
+            if ($this->IsWebFrontVisuInstance($webfront)) {
+                WFC_PushNotification($webfront, $msgtitle, $txt, $img, 0);
+            }
+            if ($this->IsTileVisuInstance($webfront)) {
+                VISU_PostNotificationEx($webfront, $msgtitle, $txt, $img, 'buzzer', 0);
+            }
         }
         // send message?
         if ($isDashboard && $msgscript != 0 && $sdb) {
